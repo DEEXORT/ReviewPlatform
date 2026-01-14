@@ -1,0 +1,11 @@
+spring:
+     application:
+          name: ReviewPlatform
+     liquibase:
+          enabled: true
+          change-log: db/changelog/db.changelog-master.xml
+     datasource:
+          url: jdbc:postgresql://localhost:5432/project
+          username: postgres
+          password: postgres
+          driver-class-name: org.postgresql.Driver
