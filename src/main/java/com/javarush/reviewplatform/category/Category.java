@@ -1,5 +1,6 @@
 package com.javarush.reviewplatform.category;
 
+import com.javarush.reviewplatform.common.HasId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Category {
+public class Category implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
