@@ -1,5 +1,6 @@
 package com.javarush.reviewplatform.user;
 
+import com.javarush.reviewplatform.common.HasId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +22,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class User {
+public class User implements HasId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -31,6 +32,15 @@ public class User {
 
     @Column(name = "password", nullable = false)
     String password;
+
+    @Column(name = "first_name", nullable = false)
+    String firstName;
+
+    @Column(name = "last_name")
+    String lastName;
+
+    @Column(name = "email")
+    String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")

@@ -1,8 +1,8 @@
-package com.javarush.reviewplatform.category;
+package com.javarush.reviewplatform.user;
 
 import com.javarush.reviewplatform.common.BaseMapper;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface CategoryMapper extends BaseMapper<Category, CategoryTo> {
+public interface UserMapper extends BaseMapper<User, UserTo> {
 }

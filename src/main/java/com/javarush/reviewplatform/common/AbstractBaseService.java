@@ -7,8 +7,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public abstract class AbstractBaseService<E extends HasId, T extends BaseTo, R extends BaseRepository<E>, M extends BaseMapper<E, T>> {
-    private final R repository;
-    private final M mapper;
+    protected final R repository;
+    protected final M mapper;
 
     public T save(T to) {
         if (to == null) throw new NullPointerException("DTO object cannot be null");

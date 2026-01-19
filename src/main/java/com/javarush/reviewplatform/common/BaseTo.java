@@ -2,12 +2,14 @@ package com.javarush.reviewplatform.common;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
 @Data
 @SuperBuilder
+@NoArgsConstructor
 public abstract class BaseTo implements HasId {
     Long id;
 

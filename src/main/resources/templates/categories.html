@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<body>
+
+<div th:insert="menu :: sidebar"></div>
+
+<div th:fragment="categories">
+    <form th:action="@{/categories}" th:object="${category}" th:method="post">
+        <label for="category_name">Наименование категории</label>
+        <input type="text" id="category_name" th:field="*{name}">
+
+        <label for="description">Описание категории</label>
+        <input type="text" id="description" th:field="*{description}">
+
+        <button type="submit">Сохранить</button>
+    </form>
+    <button>Добавить</button>
+    <button>Удалить</button>
+    <table>
+        <thead>
+        <th>Категория</th>
+        <th>Описание</th>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.name}"></td>
+            <td th:text="${category.description}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

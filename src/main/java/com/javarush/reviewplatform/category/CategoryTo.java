@@ -5,12 +5,14 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Getter
 @Setter
+@NoArgsConstructor
 public class CategoryTo extends BaseTo {
     @Size(min = 2, max = 50)
     String name;
