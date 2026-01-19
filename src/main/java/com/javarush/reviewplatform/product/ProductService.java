@@ -2,6 +2,7 @@ package com.javarush.reviewplatform.product;
 
 import com.javarush.reviewplatform.common.AbstractBaseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ public class ProductService extends AbstractBaseService<Product, ProductTo, Prod
         super(repository, mapper);
     }
 
+    @Transactional
     public List<ProductTo> getProductsByCategoryId(Long categoryId) {
         return repository
                 .findByCategoryId(categoryId)
