@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="review-form">
+    <form th:action="@{/reviews}" th:method="post" th:object="${review}">
+        <span th:text="'Обзор на ' + ${product.title}"></span>
+        <select name="rating" id="rating">
+            <option th:value="${rating}"
+                    th:each="rating : ${#numbers.sequence(1, 10)}"
+                    th:text="${rating}"
+                    th:selected="${rating == review.rating}"
+            ></option>
+        </select>
+        <label for="title">Заголовок обзора</label>
+        <input id="title" type="text" th:field="*{title}">
+
+        <label for="content">Текст обзора</label>
+        <input id="content" type="text" th:field="*{content}">
+
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+
+</body>
+</html>

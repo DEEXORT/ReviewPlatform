@@ -1,5 +1,6 @@
 package com.javarush.reviewplatform.review;
 
+import com.javarush.reviewplatform.common.HasId;
 import com.javarush.reviewplatform.product.Product;
 import com.javarush.reviewplatform.user.User;
 import jakarta.persistence.Column;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Review {
+public class Review implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -23,7 +23,9 @@ public class CategoryMvcController {
         List<CategoryTo> categories = categoryService.getAll();
         model.addAttribute("categories", categories);
         model.addAttribute("category", new CategoryTo());
-        return "categories";
+        model.addAttribute("templateName", "categories");
+        model.addAttribute("fragmentName", "categoriesContent");
+        return "main";
     }
 
     @PostMapping
