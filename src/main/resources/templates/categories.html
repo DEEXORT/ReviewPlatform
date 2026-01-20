@@ -106,18 +106,18 @@
                         <h5 class="modal-title">Редактировать категорию</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form th:action="@{/categories/update}" method="post">
+                    <form th:action="@{/categories/update}" method="post" th:object="${category}">
                         <input type="hidden" name="id" id="editCategoryId">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="editCategoryName" class="form-label">Наименование категории *</label>
                                 <input type="text" class="form-control" id="editCategoryName"
-                                       name="name" required>
+                                       name="name" required th:field="*{name}">
                             </div>
                             <div class="mb-3">
                                 <label for="editCategoryDescription" class="form-label">Описание категории</label>
                                 <textarea class="form-control" id="editCategoryDescription"
-                                          name="description" rows="3"></textarea>
+                                          name="description" rows="3" th:field="*{description}"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">

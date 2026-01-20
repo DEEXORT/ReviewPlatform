@@ -49,6 +49,12 @@ public class ProductMvcController {
         return Constant.View.MAIN;
     }
 
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute ProductTo product) {
+        productService.save(product);
+        return "redirect:/products";
+    }
+
     @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         boolean deleted = productService.deleteById(id);

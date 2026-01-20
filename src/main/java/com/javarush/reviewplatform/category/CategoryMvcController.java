@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +30,21 @@ public class CategoryMvcController {
     public String createCategory(@ModelAttribute CategoryTo category) {
         categoryService.save(category);
         return "redirect:" + Constant.Path.CATEGORIES;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable Long id) {
+        boolean deleted = categoryService.deleteById(id);
+        if (deleted) {
+            return "redirect:/categories";
+        } else {
+            throw new CategoryNotFoundException("Category with id = " + id + " not found");
+        }
+    }
+
+    @PostMapping("/update")
+    public String updateCategory(@ModelAttribute CategoryTo category) {
+        categoryService.save(category);
+        return "redirect:/categories";
     }
 }
