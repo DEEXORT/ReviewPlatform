@@ -1,5 +1,6 @@
 package com.javarush.reviewplatform.category;
 
+import com.javarush.reviewplatform.util.Constant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/categories")
+@RequestMapping(Constant.Path.CATEGORIES)
 @Slf4j
 @RequiredArgsConstructor
 public class CategoryMvcController {
@@ -25,12 +26,12 @@ public class CategoryMvcController {
         model.addAttribute("category", new CategoryTo());
         model.addAttribute("templateName", "categories");
         model.addAttribute("fragmentName", "categoriesContent");
-        return "main";
+        return Constant.View.MAIN;
     }
 
     @PostMapping
     public String createCategory(@ModelAttribute CategoryTo category) {
         categoryService.save(category);
-        return "redirect:/categories";
+        return "redirect:" + Constant.Path.CATEGORIES;
     }
 }

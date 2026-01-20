@@ -2,6 +2,7 @@ package com.javarush.reviewplatform.common;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -10,12 +11,13 @@ public abstract class AbstractBaseService<E extends HasId, T extends BaseTo, R e
     protected final R repository;
     protected final M mapper;
 
+    @Transactional
     public T save(T to) {
         if (to == null) throw new NullPointerException("DTO object cannot be null");
 
         E entity = mapper.mapToEntity(to);
         E savedEntity = repository.save(entity);
-        return to;
+        return mapper.mapToDto(savedEntity);
     }
 
     public T getById(Long id) {
@@ -29,6 +31,7 @@ public abstract class AbstractBaseService<E extends HasId, T extends BaseTo, R e
         return mapper.mapToDtoList(repository.findAll());
     }
 
+    @Transactional
     public boolean deleteById(Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
