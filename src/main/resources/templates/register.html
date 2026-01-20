@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="register-form">
+    <form th:action="@{/register}" method="post" th:object="${userTo}">
+
+        <!-- Имя пользователя -->
+        <div class="mb-3">
+            <label for="username" class="form-label">Имя пользователя</label>
+            <input type="text"
+                   class="form-control"
+                   id="username"
+                   th:field="*{username}"
+                   placeholder="Введите имя пользователя"
+                   required>
+            <div class="invalid-feedback d-block">
+            <span th:if="${#fields.hasErrors('username')}"
+                  th:errors="*{username}"></span>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email адрес</label>
+            <input type="email"
+                   class="form-control"
+                   id="email"
+                   th:field="*{email}"
+                   placeholder="example@mail.com"
+                   required>
+            <div class="invalid-feedback d-block">
+            <span th:if="${#fields.hasErrors('email')}"
+                  th:errors="*{email}"></span>
+            </div>
+        </div>
+
+        <!-- Пароль -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   th:field="*{password}"
+                   placeholder="Введите пароль"
+                   required>
+            <div class="form-text">Пароль должен быть не менее 5 символов</div>
+            <div class="invalid-feedback d-block">
+            <span th:if="${#fields.hasErrors('password')}"
+                  th:errors="*{password}"></span>
+            </div>
+        </div>
+
+        <!-- Подтверждение пароля -->
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+            <input type="password"
+                   class="form-control"
+                   id="confirmPassword"
+                   th:field="*{confirmPassword}"
+                   th:value="${param.confirmPassword}"
+                   placeholder="Повторите пароль"
+                   required>
+            <!-- Если ошибка глобальная -->
+            <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback d-block">
+                <span th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
+            </div>
+        </div>
+
+        <!-- Имя -->
+        <div class="mb-3">
+            <label for="firstName" class="form-label">Имя</label>
+            <input type="text"
+                   class="form-control"
+                   id="firstName"
+                   th:field="*{firstName}"
+                   placeholder="Введите ваше имя"
+                   required>
+            <div class="invalid-feedback d-block">
+            <span th:if="${#fields.hasErrors('firstName')}"
+                  th:errors="*{firstName}"></span>
+            </div>
+        </div>
+
+        <!-- Фамилия -->
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Фамилия</label>
+            <input type="text"
+                   class="form-control"
+                   id="lastName"
+                   th:field="*{lastName}"
+                   placeholder="Введите вашу фамилию">
+            <div class="invalid-feedback d-block">
+            <span th:if="${#fields.hasErrors('lastName')}"
+                  th:errors="*{lastName}"></span>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Зарегистрироваться</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

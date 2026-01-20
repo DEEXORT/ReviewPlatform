@@ -12,10 +12,10 @@
 </head>
 <body>
 
+<div th:insert="~{header :: header}"></div>
 <div class="d-flex">
     <div th:insert="~{menu :: sidebar}"></div>
-
-    <main>
+    <main class="container my-4">
         <div th:replace="~{${templateName} :: ${fragmentName}}"></div>
     </main>
 </div>
