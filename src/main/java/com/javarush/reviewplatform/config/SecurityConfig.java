@@ -18,12 +18,12 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/login", "/auth/login", "/register", "/logout").permitAll()
+                        req.requestMatchers("/login", "/auth/login", "/register", "/logout", "/register").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(
                         fl -> fl
-                                .loginPage("/auth/login")
+                                .loginPage("/login")
                                 .usernameParameter("username")
                                 .passwordParameter("password")
                                 .defaultSuccessUrl("/products", true)
@@ -44,10 +44,5 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SpringSecurityDialect springSecurityDialect() {
-        return new SpringSecurityDialect();
     }
 }

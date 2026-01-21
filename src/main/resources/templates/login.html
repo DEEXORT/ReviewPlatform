@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<form th:action="@{/auth/login}" th:method="post">
+<form th:action="@{/login}" th:method="post">
     <input type="text" id="username" name="username">
     <input type="password" id="password" name="password">
     <button type="submit">Войти</button>
     <button type="button">
-        <a th:href="@{/auth/register}">Регистрация</a>
+        <a th:href="@{/register}">Регистрация</a>
     </button>
 </form>
 </body>

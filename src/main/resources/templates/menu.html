@@ -12,7 +12,7 @@
                     • Управление
                 </a>
                 <div th:each="category : ${categories}" class="ms-2">
-                    <a th:href="@{/products/category/{id}(id = ${category.id})}"
+                    <a th:href="@{/templates/product/category/{id}(id = ${category.id})}"
                        class="d-block text-decoration-none small mb-1">
                         › <span th:text="${category.name}"></span>
                     </a>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<div th:fragment="productsContent">
+  <div class="container mt-4">
+    <!-- Кнопка добавления -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Продукты</h2>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal"
+              sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        + Добавить продукт
+      </button>
+    </div>
+
+    <!-- Таблица -->
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Наименование</th>
+            <th>Категория</th>
+            <th>Описание</th>
+            <th>Действия</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="product, iterStat : ${products}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${product.title}"></td>
+            <td>
+              <span th:if="${product.category?.name}"
+                    class="badge bg-info"
+                    th:text="${product.category.name}">
+              </span>
+              <span th:unless="${product.category?.name}"
+                    class="badge bg-secondary">
+                Без категории
+              </span>
+            </td>
+            <td>
+              <span th:if="${product.description}"
+                    th:text="${product.description}">
+              </span>
+              <span th:unless="${product.description}"
+                    class="text-muted">
+                —
+              </span>
+            </td>
+            <td>
+              <!-- Кнопка редактирования -->
+              <a th:href="@{/products/edit/{id}(id=${product.id})}"
+                 class="btn btn-sm btn-outline-warning me-2">
+                Изменить
+              </a>
+              <!-- Форма удаления -->
+              <form th:action="@{/products/delete/{id}(id=${product.id})}"
+                    method="post"
+                    sec:authorize="hasAnyRole('ADMIN', 'MANAGER')"
+                    class="d-inline">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit"
+                        class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('Удалить продукт?')">
+                  Удалить
+                </button>
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(products)}">
+            <td colspan="5" class="text-center text-muted py-4">
+              Продукты не найдены
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Подключаем фрагмент с модальным окном для добавления -->
+  <div th:replace="product/product-form :: productFormModal"></div>
+</div>
+</html>

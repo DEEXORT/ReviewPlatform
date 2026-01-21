@@ -6,6 +6,7 @@ import com.javarush.reviewplatform.util.Constant;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,8 @@ public class ProductMvcController {
     }
 
     @PostMapping
-    public String createProduct(@ModelAttribute ProductTo product) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public String createProduct(@ModelAttribute("product") ProductTo product) {
         productService.save(product);
         return "redirect:" + Constant.Path.PRODUCTS;
     }
@@ -41,21 +43,28 @@ public class ProductMvcController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditProduct(@PathVariable Long id, Model model) {
+    public String editProduct(@PathVariable Long id, Model model) {
         ProductTo product = productService.getById(id);
         List<ProductTo> products = productService.getAll();
-        setModelAttrs(model, products);
+        List<CategoryTo> categories = categoryService.getAll();
+
         model.addAttribute("product", product);
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        model.addAttribute("templateName", "product/product-form");
+        model.addAttribute("fragmentName", "editProductForm");
         return Constant.View.MAIN;
     }
 
     @PostMapping("/update")
-    public String updateProduct(@ModelAttribute ProductTo product) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public String updateProduct(@ModelAttribute("product") ProductTo product) {
         productService.save(product);
         return "redirect:/products";
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String deleteProduct(@PathVariable Long id) {
         boolean deleted = productService.deleteById(id);
         if (deleted) {
@@ -71,7 +80,7 @@ public class ProductMvcController {
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         model.addAttribute("product", new ProductTo());
-        model.addAttribute("templateName", "products");
+        model.addAttribute("templateName", "product/products");
         model.addAttribute("fragmentName", "productsContent");
     }
 }
