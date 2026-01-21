@@ -3,6 +3,7 @@ package com.javarush.reviewplatform.category;
 import com.javarush.reviewplatform.util.Constant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,14 @@ public class CategoryMvcController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String createCategory(@ModelAttribute CategoryTo category) {
         categoryService.save(category);
         return "redirect:" + Constant.Path.CATEGORIES;
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String deleteCategory(@PathVariable Long id) {
         boolean deleted = categoryService.deleteById(id);
         if (deleted) {
@@ -43,6 +46,7 @@ public class CategoryMvcController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String updateCategory(@ModelAttribute CategoryTo category) {
         categoryService.save(category);
         return "redirect:/categories";

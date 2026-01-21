@@ -1,92 +1,133 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <body>
 <div th:fragment="header">
     <!-- Header/Navbar -->
+<!--    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">-->
+<!--        <div class="container">-->
+<!--            &lt;!&ndash; Logo/Brand &ndash;&gt;-->
+<!--            <a class="navbar-brand fw-bold text-primary" th:href="@{/}">-->
+<!--                Review Platform-->
+<!--            </a>-->
+
+<!--            &lt;!&ndash; Mobile Toggle Button &ndash;&gt;-->
+<!--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
+
+<!--            &lt;!&ndash; Navbar Content &ndash;&gt;-->
+<!--            <div class="collapse navbar-collapse" id="navbarContent">-->
+<!--                &lt;!&ndash; Main Navigation &ndash;&gt;-->
+<!--                <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/products}">Продукты</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/reviews}">Обзоры</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/about}">О нас</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+
+<!--                &lt;!&ndash; Auth Section &ndash;&gt;-->
+<!--                <div class="d-flex align-items-center" sec:authorize="!isAuthenticated()">-->
+<!--                    &lt;!&ndash; Login Button &ndash;&gt;-->
+<!--                    <a th:href="@{/login}" class="btn btn-outline-primary me-2">-->
+<!--                        Войти-->
+<!--                    </a>-->
+
+<!--                    &lt;!&ndash; Register Button &ndash;&gt;-->
+<!--                    <a th:href="@{/register}" class="btn btn-primary">-->
+<!--                        Регистрация-->
+<!--                    </a>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; User Profile Section (when logged in) &ndash;&gt;-->
+<!--                <div class="d-flex align-items-center" sec:authorize="isAuthenticated()">-->
+<!--                    &lt;!&ndash; User Dropdown &ndash;&gt;-->
+<!--                    <div class="dropdown">-->
+<!--                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"-->
+<!--                           id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                            <span class="me-2">-->
+<!--                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"-->
+<!--                                     style="width: 32px; height: 32px;">-->
+<!--                                    <span class="text-white fw-bold"-->
+<!--                                          th:text="${#authentication.name.substring(0, 1).toUpperCase()}"></span>-->
+<!--                                </div>-->
+<!--                            </span>-->
+<!--                            <span class="text-dark" th:text="${#authentication.name}"></span>-->
+<!--                        </a>-->
+
+<!--                        <ul class="dropdown-menu dropdown-menu-end">-->
+<!--                            <li>-->
+<!--                                <a class="dropdown-item" th:href="@{/profile}">-->
+<!--                                    <i class="bi bi-person me-2"></i>Мой профиль-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a class="dropdown-item" th:href="@{/my-reviews}">-->
+<!--                                    <i class="bi bi-file-text me-2"></i>Мои обзоры-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <hr class="dropdown-divider">-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a class="dropdown-item" th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">-->
+<!--                                    <i class="bi bi-shield-lock me-2"></i>Админ панель-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <form th:action="@{/logout}" method="post" id="logoutForm">-->
+<!--                                    <button class="dropdown-item text-danger" type="submit">-->
+<!--                                        <i class="bi bi-box-arrow-right me-2"></i>Выйти-->
+<!--                                    </button>-->
+<!--                                </form>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <!-- Logo/Brand -->
             <a class="navbar-brand fw-bold text-primary" th:href="@{/}">
                 Review Platform
             </a>
 
-            <!-- Mobile Toggle Button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Main Navigation -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/products}">Продукты</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/reviews}">Обзоры</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/about}">О нас</a>
-                    </li>
-                </ul>
-
-                <!-- Auth Section -->
-                <div class="d-flex align-items-center" th:unless="${#authorization.expression('isAuthenticated()')}">
-                    <!-- Login Button -->
-                    <a th:href="@{/login}" class="btn btn-outline-primary me-2">
-                        Войти
-                    </a>
-
-                    <!-- Register Button -->
-                    <a th:href="@{/register}" class="btn btn-primary">
-                        Регистрация
-                    </a>
+                <!-- ТЕСТ 1: Всегда показываемая ссылка -->
+                <div class="ms-auto">
+                    <a href="#" class="btn btn-warning">Тестовая ссылка</a>
                 </div>
 
-                <!-- User Profile Section (when logged in) -->
-                <div class="d-flex align-items-center" th:if="${#authorization.expression('isAuthenticated()')}">
-                    <!-- User Dropdown -->
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
-                           id="userDropdown" data-bs-toggle="dropdown">
-                            <span class="me-2">
-                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
-                                     style="width: 32px; height: 32px;">
-                                    <span class="text-white fw-bold"
-                                          th:text="${#authentication.name.substring(0, 1).toUpperCase()}"></span>
-                                </div>
-                            </span>
-                            <span class="text-dark" th:text="${#authentication.name}"></span>
-                        </a>
+                <!-- ТЕСТ 2: Простая проверка auth -->
+                <div class="ms-2" sec:authorize="!isAuthenticated()">
+                    <span class="badge bg-danger">Не авторизован</span>
+                </div>
 
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item" th:href="@{/profile}">
-                                    <i class="bi bi-person me-2"></i>Мой профиль
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" th:href="@{/my-reviews}">
-                                    <i class="bi bi-file-text me-2"></i>Мои обзоры
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">
-                                    <i class="bi bi-shield-lock me-2"></i>Админ панель
-                                </a>
-                            </li>
-                            <li>
-                                <form th:action="@{/logout}" method="post" id="logoutForm">
-                                    <button class="dropdown-item text-danger" type="submit">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Выйти
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="ms-2" sec:authorize="isAuthenticated()">
+                    <span class="badge bg-success">Авторизован как:
+                        <span sec:authentication="name"></span>
+                    </span>
+                </div>
+
+                <!-- ТЕСТ 3: Простой dropdown без условий -->
+                <div class="dropdown ms-2">
+                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown">
+                        Простой dropdown
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Пункт 1</a></li>
+                        <li><a class="dropdown-item" href="#">Пункт 2</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
