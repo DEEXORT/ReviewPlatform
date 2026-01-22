@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<div th:fragment="categoryEditForm">
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/categories}">Категории</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Редактирование категории</li>
+            </ol>
+        </nav>
+
+        <!-- Заголовок -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Редактирование категории</h2>
+            <a th:href="@{/categories}" class="btn btn-outline-secondary">
+                ← Назад к списку
+            </a>
+        </div>
+
+        <!-- Карточка с формой -->
+        <div class="card" th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">
+            <div class="card-body">
+                <!-- Сообщения об ошибках -->
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <h6 class="alert-heading">Ошибки валидации:</h6>
+                    <ul class="mb-0">
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+
+                <form th:action="@{/categories/update}"
+                      th:object="${category}"
+                      th:method="post"
+                      class="needs-validation" novalidate>
+                    <!-- Скрытое поле для ID -->
+                    <input type="hidden" th:field="*{id}"/>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- Название категории -->
+                            <div class="mb-3">
+                                <label for="categoryName" class="form-label">
+                                    Наименование категории *
+                                    <span class="text-danger" th:if="${#fields.hasErrors('name')}">
+                                        (обязательное поле)
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control"
+                                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
+                                       id="categoryName" th:field="*{name}"
+                                       placeholder="Введите название категории" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                                    <span th:errors="*{name}"></span>
+                                </div>
+                            </div>
+
+                            <!-- Описание -->
+                            <div class="mb-3">
+                                <label for="categoryDescription" class="form-label">
+                                    Описание категории
+                                </label>
+                                <textarea class="form-control" id="categoryDescription"
+                                          th:field="*{description}"
+                                          rows="5"
+                                          placeholder="Добавьте описание категории (необязательно)"></textarea>
+                                <div class="form-text">
+                                    Опишите назначение и особенности данной категории
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <!-- Панель действий -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Действия</h6>
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-save"></i> Обновить
+                                        </button>
+                                        <a th:href="@{/categories}" class="btn btn-outline-secondary">
+                                            <i class="bi bi-x-circle"></i> Отмена
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+        <div th:unless="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}"
+             class="modal-body text-center p-4">
+            <p class="text-danger">У вас нет прав для редактирования категорий</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -38,7 +38,9 @@ public class ProductMvcController {
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable Long id, Model model) {
         List<ProductTo> products = productService.getProductsByCategoryId(id);
+        String categoryName = categoryService.getCategoryNameById(id);
         setModelAttrs(model, products);
+        model.addAttribute("categoryName", categoryName);
         return Constant.View.MAIN;
     }
 

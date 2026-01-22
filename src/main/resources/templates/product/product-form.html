@@ -40,11 +40,11 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                         <button type="submit" class="btn btn-primary">Сохранить</button>
                     </div>
+                    <div th:unless="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}"
+                         class="modal-body text-center p-4">
+                        <p class="text-danger">У вас нет прав для редактирования продуктов</p>
+                    </div>
                 </form>
-                <div th:unless="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}"
-                     class="modal-body text-center p-4">
-                    <p class="text-danger">У вас нет прав для редактирования продуктов</p>
-                </div>
             </div>
         </div>
     </div>

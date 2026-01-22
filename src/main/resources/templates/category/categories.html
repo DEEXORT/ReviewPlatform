@@ -68,16 +68,13 @@
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    <button class="btn btn-sm btn-outline-warning"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editCategoryModal"
-                                            th:data-id="${cat.id}"
-                                            th:data-name="${cat.name}"
-                                            th:data-description="${cat.description}">
+                                    <a th:href="@{/categories/edit/{id}(id=${cat.id})}"
+                                       class="btn btn-sm btn-outline-warning me-2">
                                         Изменить
-                                    </button>
+                                    </a>
                                     <form th:action="@{/categories/delete/{id}(id=${cat.id})}"
-                                          method="post" class="d-inline">
+                                          method="post" class="d-inline"
+                                          sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
                                         <button type="submit" class="btn btn-sm btn-outline-danger"
                                                 onclick="return confirm('Удалить категорию?')">
                                             Удалить

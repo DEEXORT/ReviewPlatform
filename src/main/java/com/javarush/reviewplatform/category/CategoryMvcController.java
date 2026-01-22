@@ -22,8 +22,19 @@ public class CategoryMvcController {
         List<CategoryTo> categories = categoryService.getAll();
         model.addAttribute("categories", categories);
         model.addAttribute("category", new CategoryTo());
-        model.addAttribute("templateName", "categories");
+        model.addAttribute("templateName", "category/categories");
         model.addAttribute("fragmentName", "categoriesContent");
+        return Constant.View.MAIN;
+    }
+
+    @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public String editCategoryForm(@PathVariable Long id, Model model) {
+        CategoryTo category = categoryService.getById(id);
+
+        model.addAttribute("category", category);
+        model.addAttribute("templateName", "category/category-form");
+        model.addAttribute("fragmentName", "categoryEditForm");
         return Constant.View.MAIN;
     }
 

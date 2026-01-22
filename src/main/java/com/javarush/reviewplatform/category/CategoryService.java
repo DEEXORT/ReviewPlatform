@@ -9,4 +9,10 @@ public class CategoryService extends AbstractBaseService<Category, CategoryTo , 
     public CategoryService(CategoryRepository repository, CategoryMapper mapper) {
         super(repository, mapper);
     }
+
+    public String getCategoryNameById(Long id) {
+        Category category = repository.getById(id);
+        if (category == null) throw new CategoryNotFoundException("Category not found");
+        return category.getName();
+    }
 }
