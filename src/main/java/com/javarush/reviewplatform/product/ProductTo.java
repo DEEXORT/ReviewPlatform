@@ -19,4 +19,6 @@ public class ProductTo extends BaseTo {
     String description;
     @NotNull
     Category category;
+    Double rating;
+    Integer reviewCount;
 }

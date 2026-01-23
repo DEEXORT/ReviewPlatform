@@ -6,6 +6,8 @@ import com.javarush.reviewplatform.util.Constant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,5 +35,25 @@ public class ReviewMvcController {
     public String createReview(@ModelAttribute("review") ReviewTo review, Model model) {
         ReviewTo saved = reviewService.save(review);
         return "redirect:" + Constant.Path.PRODUCTS;
+    }
+
+    @PostMapping("/update")
+    public String updateReview(@ModelAttribute("review") ReviewTo review, Model model) {
+        ReviewTo saved = reviewService.save(review);
+        return "redirect:" + Constant.Path.PRODUCTS;
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteReview(@PathVariable Long id, BindingResult result, Model model) {
+        boolean deleted = reviewService.deleteById(id);
+        if (deleted) {
+            return "redirect:" + Constant.Path.PRODUCTS;
+        } else {
+            result.addError(new FieldError("review", "review", "Review not deleted"));
+        }
+        if (result.hasErrors()) {
+            return "redirect:" + Constant.Path.PRODUCTS;
+        }
+        return "redirect:" + Constant.Path.REVIEWS + "/products/" + id;
     }
 }

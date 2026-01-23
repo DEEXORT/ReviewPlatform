@@ -38,4 +38,12 @@ public class Product implements HasId {
     @ManyToOne
     @JoinColumn(name = "category_id")
     Category category;
+
+    @Column(name = "rating")
+    @Builder.Default
+    Double rating = 0.0;
+
+    @Column(name = "review_count")
+    @Builder.Default
+    Integer reviewCount = 0;
 }

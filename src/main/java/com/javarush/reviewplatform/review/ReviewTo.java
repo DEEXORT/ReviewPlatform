@@ -8,10 +8,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@SuperBuilder
 public class ReviewTo extends BaseTo {
     @Size(min = 1, max = 50)
     String title;

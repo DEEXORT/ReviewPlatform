@@ -4,6 +4,7 @@
 <div th:fragment="review-form">
     <form th:action="@{/reviews}" th:method="post" th:object="${review}">
         <span th:text="'Обзор на ' + ${product.title}"></span>
+        <label for="rating">Оценка</label>
         <select name="rating" id="rating">
             <option th:value="${rating}"
                     th:each="rating : ${#numbers.sequence(1, 10)}"
@@ -11,10 +12,10 @@
                     th:selected="${rating == review.rating}"
             ></option>
         </select>
-        <label for="title">Заголовок обзора</label>
+        <label for="title">Заголовок</label>
         <input id="title" type="text" th:field="*{title}">
 
-        <label for="content">Текст обзора</label>
+        <label for="content">Обзор</label>
         <input id="content" type="text" th:field="*{content}">
 
         <button type="submit">Сохранить</button>
