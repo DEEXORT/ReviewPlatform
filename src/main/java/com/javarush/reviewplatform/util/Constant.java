@@ -11,6 +11,9 @@ public final class Constant {
         public static final String PRODUCTS = "/products";
         public static final String REVIEWS = "/reviews";
         public static final String API_CATEGORIES = "/api/v1/categories";
+        public static final String API_PRODUCTS = "/api/v1/products";
+        public static final String API_REVIEWS = "/api/v1/reviews";
+        public static final String API_USERS = "/api/v1/users";
     }
 
     // ============ VIEW NAMES =============

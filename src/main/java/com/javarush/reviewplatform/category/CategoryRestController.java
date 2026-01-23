@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,11 +36,13 @@ public class CategoryRestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public CategoryTo createCategory(@Valid @RequestBody CategoryTo categoryTo) {
         return categoryService.save(categoryTo);
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public CategoryTo updateCategory(@Valid @RequestBody CategoryTo categoryTo) {
         if (categoryTo.getId() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category ID must be provided");
@@ -48,6 +51,7 @@ public class CategoryRestController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         boolean deleted = categoryService.deleteById(id);

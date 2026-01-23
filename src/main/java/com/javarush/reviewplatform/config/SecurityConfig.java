@@ -1,5 +1,7 @@
 package com.javarush.reviewplatform.config;
 
+import com.javarush.reviewplatform.auth.JwtCookieAuthenticationHandler;
+import com.javarush.reviewplatform.auth.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
@@ -26,12 +30,12 @@ public class SecurityConfig {
                                 .loginPage("/login")
                                 .usernameParameter("username")
                                 .passwordParameter("password")
-                                .defaultSuccessUrl("/products", true)
+                                .successHandler(jwtAuthenticationHandler())
                                 .failureUrl("/login?error")
                                 .permitAll()
                 )
                 .sessionManagement(sm -> sm
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
@@ -44,5 +48,15 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtCookieAuthenticationHandler jwtAuthenticationHandler() {
+        return new JwtCookieAuthenticationHandler(jwtProvider());
+    }
+
+    @Bean
+    public JwtProvider jwtProvider() {
+        return new JwtProvider();
     }
 }
