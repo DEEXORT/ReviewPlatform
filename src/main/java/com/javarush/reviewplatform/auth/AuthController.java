@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
-    private final RegistrationService registrationService;
 
     @GetMapping("/login")
     public String login() {

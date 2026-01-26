@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Getter
 @Setter
@@ -32,6 +33,7 @@ public class UserTo extends BaseTo {
     Role role = Role.USER;
 
     @AssertTrue(message = "Пароли не совпадают")
+    @JsonIgnore
     public boolean isPasswordMatch() {
         return password.equals(confirmPassword);
     }

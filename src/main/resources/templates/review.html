@@ -1,28 +1,38 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<body>
-<div th:fragment="review-form">
-    <!--/*@thymesVar id="review" type="com.javarush.reviewplatform.review.ReviewTo"*/-->
+<div th:fragment="review-form" class="content-card">
+    <div class="mb-4">
+        <span class="badge bg-light text-primary p-2">
+            <i class="bi bi-tag-fill me-1"></i>
+            <span th:text="'Обзор на ' + ${product.title}"></span>
+        </span>
+    </div>
+
     <form th:action="@{/reviews}" th:method="post" th:object="${review}">
         <input type="hidden" th:field="*{productId}">
-        <span th:text="'Обзор на ' + ${product.title}"></span>
-        <label for="rating">Оценка</label>
-        <select name="rating" id="rating" th:field="*{rating}">
-            <option th:value="${rating}"
-                    th:each="rating : ${#numbers.sequence(1, 10)}"
-                    th:text="${rating}"
-                    th:selected="${rating == review.rating}"
-            ></option>
-        </select>
-        <label for="title">Заголовок</label>
-        <input id="title" type="text" th:field="*{title}">
 
-        <label for="content">Обзор</label>
-        <input id="content" type="text" th:field="*{content}">
+        <div class="mb-3">
+            <label for="rating" class="form-label">Оценка продукта</label>
+            <select class="form-select" id="rating" th:field="*{rating}">
+                <option th:each="i : ${#numbers.sequence(1, 10)}"
+                        th:value="${i}" th:text="${i}"></option>
+            </select>
+        </div>
 
-        <button type="submit">Сохранить</button>
+        <div class="mb-3">
+            <label for="title" class="form-label">Заголовок</label>
+            <input id="title" type="text" class="form-control"
+                   th:field="*{title}" placeholder="Коротко о главном">
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Ваш отзыв</label>
+            <textarea id="content" class="form-control" rows="4"
+                      th:field="*{content}" placeholder="Расскажите подробнее..."></textarea>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-lg me-1"></i> Сохранить обзор
+            </button>
+        </div>
     </form>
 </div>
-
-</body>
-</html>

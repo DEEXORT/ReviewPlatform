@@ -1,6 +1,7 @@
 package com.javarush.reviewplatform.category;
 
 import com.javarush.reviewplatform.util.Constant;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,7 +41,7 @@ public class CategoryMvcController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public String createCategory(@ModelAttribute CategoryTo category) {
+    public String createCategory(@Valid @ModelAttribute CategoryTo category) {
         categoryService.save(category);
         return "redirect:" + Constant.Path.CATEGORIES;
     }
@@ -58,7 +59,7 @@ public class CategoryMvcController {
 
     @PostMapping("/update")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public String updateCategory(@ModelAttribute CategoryTo category) {
+    public String updateCategory(@Valid @ModelAttribute CategoryTo category) {
         categoryService.save(category);
         return "redirect:/categories";
     }

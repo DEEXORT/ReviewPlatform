@@ -11,4 +11,11 @@ spring:
           driver-class-name: org.postgresql.Driver
 jwt:
      secret: jwt-secret
-     expiration: 60000 # 1 minute
+     expiration: 900000 # 15 minutes
+logging:
+     level:
+          org:
+               springframework:
+                    web:
+                         filter:
+                              CommonsRequestLoggingFilter: DEBUG

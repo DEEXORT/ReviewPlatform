@@ -1,34 +1,24 @@
-<!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
-<body>
-<div th:fragment="sidebar">
-    <div class="bg-light border-end vh-100" style="width: 200px;">
-        <div class="p-3">
-            <h6 class="border-bottom pb-2">Меню</h6>
-
-            <div class="mb-3">
-                <div class="fw-bold mb-2">Категории</div>
-                <a th:href="@{/categories}" class="d-block text-decoration-none mb-2">
-                    • Управление
-                </a>
-                <div th:each="category : ${categories}" class="ms-2">
-                    <a th:href="@{/products/category/{id}(id = ${category.id})}"
-                       class="d-block text-decoration-none small mb-1">
-                        › <span th:text="${category.name}"></span>
-                    </a>
-                </div>
-            </div>
-
-            <div>
-                <a th:href="@{/reviews}" class="d-block text-decoration-none mb-2">
-                    • Обзоры
-                </a>
-                <a th:href="@{/products}" class="d-block text-decoration-none">
-                    • Товары
-                </a>
-            </div>
+<div th:fragment="sidebar" class="sidebar">
+    <h6>Навигация</h6>
+    <div class="nav flex-column">
+        <a th:href="@{/products}" class="mb-2">
+            <i class="bi bi-box-seam me-2"></i>Товары
+        </a>
+        <div th:each="category : ${categories}" class="ps-3">
+            <a th:href="@{/products/category/{id}(id = ${category.id})}"
+               class="small d-block py-1">
+                <i class="bi bi-chevron-right small me-1"></i>
+                <span th:text="${category.name}"></span>
+            </a>
         </div>
+        <a th:href="@{/reviews}" class="mb-2">
+            <i class="bi bi-chat-left-text me-2"></i>Обзоры
+        </a>
+
+        <h6 class="mt-4">Категории</h6>
+        <a th:href="@{/categories}" class="mb-2 text-primary fw-bold">
+            <i class="bi bi-gear me-2"></i>Управление
+        </a>
+
     </div>
 </div>
-</body>
-</html>

@@ -24,13 +24,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Value("${jwt.secret}")
     private String secret;
 
+    private JWTVerifier verifier;
+
+    private synchronized void initVerifier() {
+        if (verifier == null) {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            verifier = JWT.require(algorithm).build();
+        }
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Algorithm algorithm = Algorithm.HMAC256(secret);
-        JWTVerifier verifier = JWT.require(algorithm).build();
-
+        initVerifier();
         String token;
-        token = getJwtTokenFromCookies(request);
+        token = getJwtTokenFromHeaders(request);
+        if (token == null) token = getJwtTokenFromCookies(request);
 
         if (token != null) {
             try {
@@ -62,11 +70,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getJwtTokenFromCookies(HttpServletRequest request) {
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("token")) {
-                return cookie.getValue();
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    return cookie.getValue();
+                }
             }
         }
         return null;
+    }
+
+    private String getJwtTokenFromHeaders(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            return authorization.substring(7);
+        } else {
+            return null;
+        }
     }
 }

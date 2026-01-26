@@ -28,6 +28,7 @@ public class JwtCookieAuthenticationHandler implements AuthenticationSuccessHand
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setSecure(request.isSecure());
+        cookie.setMaxAge(86400); // 1 day
         response.addCookie(cookie);
         response.sendRedirect(Constant.Path.PRODUCTS);
     }

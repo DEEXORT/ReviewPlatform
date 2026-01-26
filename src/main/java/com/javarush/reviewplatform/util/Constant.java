@@ -14,6 +14,7 @@ public final class Constant {
         public static final String API_PRODUCTS = "/api/v1/products";
         public static final String API_REVIEWS = "/api/v1/reviews";
         public static final String API_USERS = "/api/v1/users";
+        public static final String API_AUTH = "/api/v1/auth";
     }
 
     // ============ VIEW NAMES =============
