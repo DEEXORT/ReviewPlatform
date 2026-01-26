@@ -20,10 +20,10 @@ public class JwtCookieAuthenticationHandler implements AuthenticationSuccessHand
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        UserDetails userDetails = (UserDetails) authentication.getDetails();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        String token = jwtProvider.generateToken(userDetails.getUsername(), roles);
+        String token = jwtProvider.generateToken(userDetails, roles);
         Cookie cookie = new Cookie("token", token);
         cookie.setPath("/");
         cookie.setHttpOnly(true);

@@ -1,5 +1,6 @@
 package com.javarush.reviewplatform.config;
 
+import com.javarush.reviewplatform.auth.JwtAuthenticationFilter;
 import com.javarush.reviewplatform.auth.JwtCookieAuthenticationHandler;
 import com.javarush.reviewplatform.auth.JwtProvider;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 @Configuration
@@ -25,9 +27,11 @@ public class SecurityConfig {
                         req.requestMatchers("/login", "/auth/login", "/register", "/logout", "/register").permitAll()
                                 .anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(
                         fl -> fl
                                 .loginPage("/login")
+                                .loginProcessingUrl("/login")
                                 .usernameParameter("username")
                                 .passwordParameter("password")
                                 .successHandler(jwtAuthenticationHandler())
@@ -40,6 +44,7 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
                         .invalidateHttpSession(true)
+                        .deleteCookies("token")
                         .permitAll()
                 );
         return http.build();
@@ -59,4 +64,7 @@ public class SecurityConfig {
     public JwtProvider jwtProvider() {
         return new JwtProvider();
     }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {return new JwtAuthenticationFilter();}
 }

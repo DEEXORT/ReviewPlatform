@@ -4,7 +4,11 @@ import com.javarush.reviewplatform.ContainerIT;
 import com.javarush.reviewplatform.TestDataService;
 import com.javarush.reviewplatform.category.Category;
 import com.javarush.reviewplatform.product.Product;
+import com.javarush.reviewplatform.product.ProductMapper;
+import com.javarush.reviewplatform.product.ProductService;
+import com.javarush.reviewplatform.product.ProductTo;
 import com.javarush.reviewplatform.user.User;
+import com.javarush.reviewplatform.user.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,13 +20,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @Transactional
 class ReviewServiceIT extends ContainerIT {
+    @Autowired
+    private ProductMapper productMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private ReviewService reviewService;
 
     @Autowired
-    private TestDataService testDataService;
+    private ProductService productService;
 
+    @Autowired
+    private TestDataService testDataService;
 
     @Test
     void should_saveReview() {
@@ -32,8 +43,8 @@ class ReviewServiceIT extends ContainerIT {
         ReviewTo reviewTo = ReviewTo.builder()
                 .title("Review Title")
                 .content("Review Content")
-                .product(product)
-                .user(user)
+                .productId(product.getId())
+                .userId(user.getId())
                 .rating(5)
                 .build();
 
@@ -52,15 +63,15 @@ class ReviewServiceIT extends ContainerIT {
         ReviewTo reviewTo = ReviewTo.builder()
                 .title("Review Title")
                 .content("Review Content")
-                .product(product)
-                .user(user)
+                .productId(product.getId())
+                .userId(user.getId())
                 .rating(5)
                 .build();
         ReviewTo reviewTo2 = ReviewTo.builder()
                 .title("Review Title2")
                 .content("Review Content2")
-                .product(product)
-                .user(user2)
+                .productId(product.getId())
+                .userId(user.getId())
                 .rating(7)
                 .build();
 
@@ -69,7 +80,8 @@ class ReviewServiceIT extends ContainerIT {
 
         assertNotNull(saved.getId());
         assertNotNull(saved2.getId());
-        assertEquals(6, saved2.getProduct().getRating());
+        ProductTo updatedProduct = productService.getById(product.getId());
+        assertEquals(6, updatedProduct.getRating());
     }
 
 }

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ReviewRepository extends BaseRepository<Review> {
     List<Review> findByProduct(Product product);
+
+    List<Review> findByProductId(Long productId);
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<!--/*@thymesVar id="product" type="com.javarush.reviewplatform.product.ProductTo"*/-->
 <div th:fragment="productsContent">
   <div class="container mt-4">
     <!-- Кнопка добавления -->
@@ -51,9 +52,19 @@
               </span>
             </td>
             <td>
-
+              <span th:if="${product.rating != null || product.rating > 0.0}"
+                      th:text="${product.rating}">
+              </span>
+              <span th:if="${product.rating == null || product.rating == 0.0}">
+                Нет оценок
+                </span>
             </td>
             <td>
+              <!-- Кнопка для написания обзора -->
+              <a th:href="@{/reviews/product/{id}(id=${product.id})}"
+                 class="btn btn-sm btn-outline-warning me-2">
+                Оценить
+              </a>
               <!-- Кнопка редактирования -->
               <a th:href="@{/products/edit/{id}(id=${product.id})}"
                  class="btn btn-sm btn-outline-warning me-2">

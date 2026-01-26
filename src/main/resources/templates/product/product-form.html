@@ -12,6 +12,8 @@
                 </div>
                 <form th:action="@{/products}" th:object="${product}" method="post"
                       th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">
+                    <input type="hidden" th:field="*{rating}" th:value="${product.rating}">
+                    <input type="hidden" th:field="*{reviewCount}" th:value="${product.reviewCount}">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Наименование *</label>

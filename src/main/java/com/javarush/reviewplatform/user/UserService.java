@@ -30,4 +30,11 @@ public class UserService extends AbstractBaseService<User, UserTo, UserRepositor
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
+
+    public UserTo findByUsername(String username) {
+        return repository
+                .findByUsername(username)
+                .map(mapper::mapToDto)
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+    }
 }
