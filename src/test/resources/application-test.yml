@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    hikari:
+      max-lifetime: 30000
+      connection-timeout: 10000

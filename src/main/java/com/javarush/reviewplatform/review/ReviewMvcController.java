@@ -1,26 +1,25 @@
 package com.javarush.reviewplatform.review;
 
-import com.javarush.reviewplatform.auth.CustomUserDetails;
+import com.javarush.reviewplatform.auth.service.CustomUserDetails;
 import com.javarush.reviewplatform.product.ProductService;
 import com.javarush.reviewplatform.product.ProductTo;
 import com.javarush.reviewplatform.user.UserService;
-import com.javarush.reviewplatform.user.UserTo;
 import com.javarush.reviewplatform.util.Constant;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(Constant.Path.REVIEWS)
@@ -43,32 +42,43 @@ public class ReviewMvcController {
         return Constant.View.MAIN;
     }
 
+    @GetMapping("/{username}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER') and " +
+            "authentication.name == #username")
+    public String showUserReviews(@PathVariable String username, Model model) {
+        List<ReviewViewTo> reviews = reviewService.getReviewViewsByUsername(username);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("templateName", "review/user-reviews");
+        model.addAttribute("fragmentName", "reviews");
+        return Constant.View.MAIN;
+    }
+
     @PostMapping
     public String createReview(@Validated(ReviewTo.WebValidation.class) @ModelAttribute("review") ReviewTo review,
-                               @AuthenticationPrincipal CustomUserDetails customUserDetails,
-                               Model model) {
+                               @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         review.setUserId(customUserDetails.getId());
         ReviewTo saved = reviewService.save(review);
         return "redirect:" + Constant.Path.PRODUCTS;
     }
 
     @PostMapping("/update")
-    public String updateReview(@ModelAttribute("review") ReviewTo review, Model model) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER') and " +
+            "(@securityService.isReviewOwner(#review.id, authentication.name) or hasRole('ADMIN'))")
+    public String updateReview(@ModelAttribute("review") ReviewTo review) {
         ReviewTo saved = reviewService.save(review);
         return "redirect:" + Constant.Path.PRODUCTS;
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteReview(@PathVariable Long id, BindingResult result, Model model) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER') and " +
+            "(@securityService.isReviewOwner(#id, authentication.name) or hasRole('ADMIN'))")
+    public String deleteReview(@PathVariable Long id,
+                               RedirectAttributes redirectAttributes,
+                               Authentication authentication) {
         boolean deleted = reviewService.deleteById(id);
-        if (deleted) {
-            return "redirect:" + Constant.Path.PRODUCTS;
-        } else {
-            result.addError(new FieldError("review", "review", "Review not deleted"));
+        if (!deleted) {
+            redirectAttributes.addAttribute("errorMessage", "Review not found");
         }
-        if (result.hasErrors()) {
-            return "redirect:" + Constant.Path.PRODUCTS;
-        }
-        return "redirect:" + Constant.Path.REVIEWS + "/products/" + id;
+        return "redirect:" + Constant.Path.REVIEWS + "/" + authentication.getName();
     }
 }

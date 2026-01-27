@@ -14,10 +14,16 @@ public class ProductService extends AbstractBaseService<Product, ProductTo, Prod
     }
 
     @Transactional
-    public List<ProductTo> getProductsByCategoryId(Long categoryId) {
+    public List<ProductViewTo> getProductsByCategoryId(Long categoryId) {
         return repository
                 .findByCategoryId(categoryId)
-                .map(mapper::mapToDto)
+                .map(mapper::mapToViewDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<ProductViewTo> getProductViews() {
+        return repository.findAll().stream()
+                .map(mapper::mapToViewDto)
+                .toList();
     }
 }

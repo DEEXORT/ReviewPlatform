@@ -11,13 +11,11 @@ import com.javarush.reviewplatform.user.User;
 import com.javarush.reviewplatform.user.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
 @Transactional
 class ReviewServiceIT extends ContainerIT {
     @Autowired
@@ -57,7 +55,7 @@ class ReviewServiceIT extends ContainerIT {
     @Test
     void should_saveReviewsAndCalculateAverageRatingCorrectly() {
         User user = testDataService.createUser();
-        User user2 = testDataService.createUser();
+        User user2 = testDataService.createUser("SecondUser", "SecondUser");
         Category category = testDataService.createCategory();
         Product product = testDataService.createProduct(category);
         ReviewTo reviewTo = ReviewTo.builder()

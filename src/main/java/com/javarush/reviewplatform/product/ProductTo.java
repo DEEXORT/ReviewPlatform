@@ -1,6 +1,5 @@
 package com.javarush.reviewplatform.product;
 
-import com.javarush.reviewplatform.category.Category;
 import com.javarush.reviewplatform.common.BaseTo;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,7 +17,7 @@ public class ProductTo extends BaseTo {
     String title;
     String description;
     @NotNull
-    Category category;
+    Long categoryId;
     Double rating;
     Integer reviewCount;
 }

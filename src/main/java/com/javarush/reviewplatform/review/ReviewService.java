@@ -1,7 +1,6 @@
 package com.javarush.reviewplatform.review;
 
 import com.javarush.reviewplatform.common.AbstractBaseService;
-import com.javarush.reviewplatform.product.ProductMapper;
 import com.javarush.reviewplatform.product.ProductService;
 import com.javarush.reviewplatform.product.ProductTo;
 import org.springframework.stereotype.Service;
@@ -35,5 +34,10 @@ public class ReviewService extends AbstractBaseService<Review, ReviewTo, ReviewR
         product.setReviewCount(reviews.size());
 
         return productService.save(product);
+    }
+
+    public List<ReviewViewTo> getReviewViewsByUsername(String username) {
+        List<Review> reviews = repository.findByUserUsername(username);
+        return reviews.stream().map(mapper::mapToViewDto).toList();
     }
 }

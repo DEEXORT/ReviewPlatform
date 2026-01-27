@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="reviews">
+    <div class="container mt-4">
+        <!-- Кнопка добавления -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Мои обзоры</h2>
+        </div>
+
+        <!-- Таблица -->
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Заголовок</th>
+                        <th>Категория</th>
+                        <th>Продукт</th>
+                        <th>Оценка</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--/*@thymesVar id="reviews" type="com.javarush.reviewplatform.review.ReviewTo"*/-->
+                    <tr th:each="review, iterStat : ${reviews}">
+                        <td th:text="${iterStat.count}"></td>
+                        <td th:text="${review.title}"></td>
+                        <td>
+              <span th:if="${review.categoryName}"
+                    class="badge bg-info"
+                    th:text="${review.categoryName}">
+              </span>
+                            <span th:unless="${review.categoryName}"
+                                  class="badge bg-secondary">
+                Без категории
+              </span>
+                        </td>
+                        <td>
+              <span th:if="${review.productName}"
+                    th:text="${review.productName}">
+              </span>
+                            <span th:unless="${review.productName}"
+                                  class="text-muted">
+                —
+              </span>
+                        </td>
+                        <td>
+              <span th:if="${review.rating != null || review.rating > 0.0}"
+                    th:text="${review.rating}">
+              </span>
+                            <span th:if="${review.rating == null || review.rating == 0.0}">
+                Нет оценок
+                </span>
+                        </td>
+                        <td>
+                            <!-- Форма удаления -->
+                            <form th:action="@{/reviews/delete/{id}(id=${review.id})}"
+                                  method="post"
+                                  class="d-inline">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Удалить продукт?')">
+                                    Удалить
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(reviews)}">
+                        <td colspan="5" class="text-center text-muted py-4">
+                            У вас нет оценок
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

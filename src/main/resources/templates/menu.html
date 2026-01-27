@@ -2,7 +2,7 @@
     <h6>Навигация</h6>
     <div class="nav flex-column">
         <a th:href="@{/products}" class="mb-2">
-            <i class="bi bi-box-seam me-2"></i>Товары
+            <i class="bi bi-box-seam me-2"></i>Контент
         </a>
         <div th:each="category : ${categories}" class="ps-3">
             <a th:href="@{/products/category/{id}(id = ${category.id})}"
@@ -12,7 +12,7 @@
             </a>
         </div>
         <a th:href="@{/reviews}" class="mb-2">
-            <i class="bi bi-chat-left-text me-2"></i>Обзоры
+            <i class="bi bi-chat-left-text me-2"></i>Отзывы
         </a>
 
         <h6 class="mt-4">Категории</h6>

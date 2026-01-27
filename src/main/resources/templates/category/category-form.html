@@ -19,16 +19,6 @@
 
     <div class="content-card" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
 
-<!--        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger border-0 shadow-sm mb-4">-->
-<!--            <div class="d-flex align-items-center">-->
-<!--                <i class="bi bi-exclamation-triangle-fill me-2"></i>-->
-<!--                <h6 class="alert-heading m-0">Проверьте введенные данные:</h6>-->
-<!--            </div>-->
-<!--            <ul class="mt-2 mb-0 small">-->
-<!--                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>-->
-<!--            </ul>-->
-<!--        </div>-->
-
         <form th:action="@{/categories/update}"
               th:object="${category}"
               th:method="post"

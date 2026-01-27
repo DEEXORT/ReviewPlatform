@@ -9,4 +9,6 @@ public interface ReviewRepository extends BaseRepository<Review> {
     List<Review> findByProduct(Product product);
 
     List<Review> findByProductId(Long productId);
+
+    List<Review> findByUserUsername(String username);
 }

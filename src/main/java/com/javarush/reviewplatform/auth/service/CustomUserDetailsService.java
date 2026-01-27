@@ -1,4 +1,4 @@
-package com.javarush.reviewplatform.auth;
+package com.javarush.reviewplatform.auth.service;
 
 import com.javarush.reviewplatform.user.User;
 import com.javarush.reviewplatform.user.UserRepository;

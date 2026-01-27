@@ -7,7 +7,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Добавить продукт</h5>
+                    <h5 class="modal-title">Добавить контент</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form th:action="@{/products}" th:object="${product}" method="post"
@@ -29,7 +29,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Категория *</label>
-                            <select class="form-select" th:field="*{category.id}" required>
+                            <select class="form-select" th:field="*{categoryId}" required>
                                 <option value="">Выберите категорию...</option>
                                 <option th:each="category : ${categories}"
                                         th:value="${category.id}"
@@ -41,10 +41,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                         <button type="submit" class="btn btn-primary">Сохранить</button>
-                    </div>
-                    <div th:unless="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}"
-                         class="modal-body text-center p-4">
-                        <p class="text-danger">У вас нет прав для редактирования продуктов</p>
                     </div>
                 </form>
             </div>
@@ -60,13 +56,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Редактировать продукт</h5>
+                            <h5 class="mb-0">Редактировать контент</h5>
                             <a th:href="@{/products}" class="btn btn-sm btn-outline-secondary">Назад к списку</a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <form th:action="@{/products/update}" th:object="${product}" method="post"
-                              th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">
+                    <div class="card-body" th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">
+                        <form th:action="@{/products/update}" th:object="${product}" method="post">
                             <input type="hidden" th:field="*{id}">
 
                             <div class="mb-3">
@@ -83,7 +78,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Категория *</label>
-                                <select class="form-select" th:field="*{category.id}" required>
+                                <select class="form-select" th:field="*{categoryId}" required>
                                     <option value="">Выберите категорию...</option>
                                     <option th:each="category : ${categories}"
                                             th:value="${category.id}"
@@ -97,14 +92,16 @@
                                 <button type="submit" class="btn btn-primary">Обновить</button>
                             </div>
                         </form>
-                        <div th:unless="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}"
-                             class="text-center p-4">
-                            <p class="text-danger">У вас нет прав для редактирования продуктов</p>
-                            <a th:href="@{/products}" class="btn btn-secondary mt-2">Назад к списку</a>
-                        </div>
+                    </div>
+                    <div sec:authorize="!hasAnyRole('ADMIN', 'MANAGER')" class="content-card text-center p-5">
+                        <i class="bi bi-shield-lock text-danger" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">Доступ ограничен</h4>
+                        <p class="text-muted">У вас нет прав для редактирования контента. Пожалуйста, обратитесь к администратору.</p>
+                        <a th:href="@{/}" class="btn btn-primary mt-2">На главную</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

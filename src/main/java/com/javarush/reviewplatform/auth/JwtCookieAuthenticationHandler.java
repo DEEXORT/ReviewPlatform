@@ -1,5 +1,6 @@
 package com.javarush.reviewplatform.auth;
 
+import com.javarush.reviewplatform.auth.service.CustomUserDetails;
 import com.javarush.reviewplatform.util.Constant;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;

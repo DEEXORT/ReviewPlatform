@@ -23,6 +23,7 @@ public class ReviewRestController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @ResponseStatus(HttpStatus.CREATED)
     public ReviewTo createReview(@Valid @RequestBody ReviewTo reviewTo) {
         return reviewService.save(reviewTo);
     }

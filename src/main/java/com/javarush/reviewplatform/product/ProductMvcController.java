@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping(Constant.Path.PRODUCTS)
+@RequestMapping({Constant.Path.PRODUCTS, "/"})
 @Slf4j
 @RequiredArgsConstructor
 public class ProductMvcController {
@@ -23,7 +23,7 @@ public class ProductMvcController {
 
     @GetMapping
     public String showProducts(Model model) {
-        List<ProductTo> products = productService.getAll();
+        List<ProductViewTo> products = productService.getProductViews();
         setModelAttrs(model, products);
         return Constant.View.MAIN;
     }
@@ -37,7 +37,7 @@ public class ProductMvcController {
 
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable Long id, Model model) {
-        List<ProductTo> products = productService.getProductsByCategoryId(id);
+        List<ProductViewTo> products = productService.getProductsByCategoryId(id);
         String categoryName = categoryService.getCategoryNameById(id);
         setModelAttrs(model, products);
         model.addAttribute("categoryName", categoryName);
@@ -47,11 +47,9 @@ public class ProductMvcController {
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable Long id, Model model) {
         ProductTo product = productService.getById(id);
-        List<ProductTo> products = productService.getAll();
         List<CategoryTo> categories = categoryService.getAll();
 
         model.addAttribute("product", product);
-        model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         model.addAttribute("templateName", "product/product-form");
         model.addAttribute("fragmentName", "editProductForm");
@@ -65,7 +63,7 @@ public class ProductMvcController {
         return "redirect:/products";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String deleteProduct(@PathVariable Long id) {
         boolean deleted = productService.deleteById(id);
@@ -77,7 +75,7 @@ public class ProductMvcController {
     }
 
     @NotNull
-    private void setModelAttrs(Model model, List<ProductTo> products) {
+    private void setModelAttrs(Model model, List<ProductViewTo> products) {
         List<CategoryTo> categories = categoryService.getAll();
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);

@@ -29,7 +29,6 @@ public class CategoryMvcController {
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String editCategoryForm(@PathVariable Long id, Model model) {
         CategoryTo category = categoryService.getById(id);
 
@@ -46,7 +45,7 @@ public class CategoryMvcController {
         return "redirect:" + Constant.Path.CATEGORIES;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String deleteCategory(@PathVariable Long id) {
         boolean deleted = categoryService.deleteById(id);

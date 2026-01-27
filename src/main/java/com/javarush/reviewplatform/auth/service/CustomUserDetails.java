@@ -1,4 +1,4 @@
-package com.javarush.reviewplatform.auth;
+package com.javarush.reviewplatform.auth.service;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
