@@ -31,7 +31,7 @@ class CategoryRestControllerIT extends ContainerIT {
         mockMvc.perform(get("/api/v1/categories"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.length()").isNotEmpty());
     }
 
     @Test

@@ -21,8 +21,6 @@ public class ProductMvcController {
     private final ProductService productService;
     private final CategoryService categoryService;
 
-
-
     @GetMapping
     public String showProducts(Model model) {
         List<ProductViewTo> products = productService.getProductViews();
@@ -46,7 +44,7 @@ public class ProductMvcController {
         return Constant.View.MAIN;
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping(Constant.Path.EDIT + "/{id}")
     public String editProduct(@PathVariable Long id, Model model) {
         ProductTo product = productService.getById(id);
         List<CategoryTo> categories = categoryService.getAll();
@@ -62,10 +60,10 @@ public class ProductMvcController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String updateProduct(@ModelAttribute("product") ProductTo product) {
         productService.save(product);
-        return "redirect:/products";
+        return "redirect:" + Constant.Path.PRODUCTS;
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping(Constant.Path.DELETE + "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String deleteProduct(@PathVariable Long id) {
         boolean deleted = productService.deleteById(id);

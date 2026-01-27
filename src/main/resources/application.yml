@@ -12,10 +12,6 @@ spring:
 jwt:
      secret: jwt-secret
      expiration: 900000 # 15 minutes
-logging:
-     level:
-          org:
-               springframework:
-                    web:
-                         filter:
-                              CommonsRequestLoggingFilter: DEBUG
+springdoc:
+     swagger-ui:
+          path: /api-docs.html

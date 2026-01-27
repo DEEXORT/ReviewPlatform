@@ -3,6 +3,7 @@ package com.javarush.reviewplatform.product;
 import com.javarush.reviewplatform.common.BaseTo;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,8 @@ public class ProductTo extends BaseTo {
     String description;
     @NotNull
     Long categoryId;
-    Double rating;
-    Integer reviewCount;
+    @Builder.Default
+    Double rating = 0.0;
+    @Builder.Default
+    Integer reviewCount = 0;
 }

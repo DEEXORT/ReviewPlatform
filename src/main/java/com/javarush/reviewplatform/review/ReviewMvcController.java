@@ -27,7 +27,6 @@ import java.util.List;
 public class ReviewMvcController {
     private final ProductService productService;
     private final ReviewService reviewService;
-    private final UserService userService;
 
     @GetMapping
     public String showReviews(Model model) {
@@ -38,7 +37,7 @@ public class ReviewMvcController {
         return Constant.View.MAIN;
     }
 
-    @GetMapping("/edit/{reviewId}")
+    @GetMapping(Constant.Path.EDIT + "/{reviewId}")
     public String showEditReviewForm(@PathVariable Long reviewId, Model model) {
         ReviewTo reviewTo = reviewService.getById(reviewId);
         ProductTo product = productService.getById(reviewTo.getProductId());
@@ -81,7 +80,7 @@ public class ReviewMvcController {
         return "redirect:" + Constant.Path.PRODUCTS;
     }
 
-    @PostMapping("/update")
+    @PostMapping(Constant.Path.UPDATE)
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER') and " +
             "(@securityService.isReviewOwner(#review.id, authentication.name) or hasRole('ADMIN'))")
     public String updateReview(@ModelAttribute("review") ReviewTo review) {
@@ -89,7 +88,7 @@ public class ReviewMvcController {
         return "redirect:" + Constant.Path.PRODUCTS;
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping(Constant.Path.DELETE + "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER') and " +
             "(@securityService.isReviewOwner(#id, authentication.name) or hasRole('ADMIN'))")
     public String deleteReview(@PathVariable Long id,

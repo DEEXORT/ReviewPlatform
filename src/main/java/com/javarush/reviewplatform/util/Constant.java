@@ -12,6 +12,9 @@ public final class Constant {
         public static final String REVIEWS = "/reviews";
         public static final String LOGIN = "/login";
         public static final String REGISTER = "/register";
+        public static final String EDIT = "/edit";
+        public static final String DELETE = "/delete";
+        public static final String UPDATE = "/update";
         public static final String API_CATEGORIES = "/api/v1/categories";
         public static final String API_PRODUCTS = "/api/v1/products";
         public static final String API_REVIEWS = "/api/v1/reviews";

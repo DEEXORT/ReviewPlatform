@@ -28,7 +28,7 @@ public class CategoryMvcController {
         return Constant.View.MAIN;
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping(Constant.Path.EDIT + "/{id}")
     public String editCategoryForm(@PathVariable Long id, Model model) {
         CategoryTo category = categoryService.getById(id);
 
@@ -45,21 +45,21 @@ public class CategoryMvcController {
         return "redirect:" + Constant.Path.CATEGORIES;
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping(Constant.Path.DELETE + "/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String deleteCategory(@PathVariable Long id) {
         boolean deleted = categoryService.deleteById(id);
         if (deleted) {
-            return "redirect:/categories";
+            return "redirect:" + Constant.Path.CATEGORIES;
         } else {
             throw new CategoryNotFoundException("Category with id = " + id + " not found");
         }
     }
 
-    @PostMapping("/update")
+    @PostMapping(Constant.Path.UPDATE)
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String updateCategory(@Valid @ModelAttribute CategoryTo category) {
         categoryService.save(category);
-        return "redirect:/categories";
+        return "redirect:" + Constant.Path.CATEGORIES;
     }
 }
