@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="20240522-0-users" author="gemini">
+        <insert tableName="users">
+            <column name="id" valueNumeric="2"/>
+            <column name="username" value="admin"/>
+            <column name="password" value="{noop}admin"/> <column name="first_name" value="Системный"/>
+            <column name="last_name" value="Администратор"/>
+            <column name="email" value="admin@terminal.os"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" valueNumeric="3"/>
+            <column name="username" value="cyber_user"/>
+            <column name="password" value="{noop}123"/>
+            <column name="first_name" value="Алекс"/>
+            <column name="last_name" value="Джонсон"/>
+            <column name="email" value="alex@net.ru"/>
+            <column name="role" value="USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20240522-1-categories" author="gemini">
+        <insert tableName="categories">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="ВИДЕОИГРЫ"/>
+            <column name="description" value="Интерактивные миры и цифровые развлечения высокого уровня."/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="КИНО_И_СЕРИАЛЫ"/>
+            <column name="description" value="Архив визуальных медиа-потоков и кинематографических шедевров."/>
+        </insert>
+        <insert tableName="categories">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="ТЕХНОЛОГИИ"/>
+            <column name="description" value="Обзоры вычислительных мощностей и кибернетических устройств."/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20240522-2-products" author="gemini">
+        <insert tableName="products">
+            <column name="id" valueNumeric="1"/>
+            <column name="title" value="Cyberpunk 2077: Phantom Liberty"/>
+            <column name="description" value="Шпионский триллер в декорациях Найт-Сити. Вершина жанра киберпанк."/>
+            <column name="category_id" valueNumeric="1"/>
+            <column name="rating" valueNumeric="4.9"/>
+            <column name="review_count" valueNumeric="2"/>
+        </insert>
+        <insert tableName="products">
+            <column name="id" valueNumeric="2"/>
+            <column name="title" value="Дюна: Часть вторая"/>
+            <column name="description" value="Визуальный шедевр Дени Вильнёва об Арракисе и Поле Атрейдесе."/>
+            <column name="category_id" valueNumeric="2"/>
+            <column name="rating" valueNumeric="5.0"/>
+            <column name="review_count" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20240522-3-reviews" author="gemini">
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="1"/>
+            <column name="title" value="Шедевр иммерсивности"/>
+            <column name="content" value="Сюжет Сойки и Рида пробирает до костей. Найт-Сити никогда не был таким живым."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="product_id" valueNumeric="1"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="2"/>
+            <column name="title" value="Техническое совершенство"/>
+            <column name="content" value="Оптимизация на высоте, графика — новое слово в индустрии."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="user_id" valueNumeric="2"/>
+            <column name="product_id" valueNumeric="1"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="3"/>
+            <column name="title" value="Эпик мирового уровня"/>
+            <column name="content" value="Звук и картинка заставляют забыть о реальности. Идеальная адаптация."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="user_id" valueNumeric="2"/>
+            <column name="product_id" valueNumeric="2"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

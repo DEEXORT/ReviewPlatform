@@ -1,107 +1,183 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<div th:fragment="productFormModal">
-    <!-- Модальное окно для добавления -->
-    <div class="modal fade" id="productModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Добавить контент</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<body>
+<div th:fragment="editProductForm">
+    <nav class="mb-4">
+        <div class="font-monospace x-small">
+            <a th:href="@{/products}" class="text-info text-decoration-none">./PRODUCTS</a> /
+            <span class="text-muted">EDIT_ENTITY_ID:[[${product.id}]]</span>
+        </div>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+        <h2 class="cyber-glitch-title">RECONFIGURE_PRODUCT</h2>
+        <a th:href="@{/products}" class="btn btn-cyber-sm">
+            <i class="bi bi-arrow-left"></i> BACK_TO_LIST
+        </a>
+    </div>
+
+    <div class="terminal-window p-4" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        <form th:action="@{/products/update}" th:object="${product}" th:method="post" class="needs-validation">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{rating}"/>
+            <input type="hidden" th:field="*{reviewCount}"/>
+
+            <div class="row g-4">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label text-muted x-small">> ENTITY_TITLE</label>
+                        <input type="text" class="form-control cyber-input" th:field="*{title}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted x-small">> DATA_DESCRIPTION</label>
+                        <textarea class="form-control cyber-input" th:field="*{description}" rows="6"></textarea>
+                    </div>
                 </div>
-                <form th:action="@{/products}" th:object="${product}" method="post"
-                      th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">
-                    <input type="hidden" th:field="*{rating}" th:value="${product.rating}">
-                    <input type="hidden" th:field="*{reviewCount}" th:value="${product.reviewCount}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Наименование *</label>
-                            <input type="text" class="form-control"
-                                   th:field="*{title}" required>
-                        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Описание</label>
-                            <textarea class="form-control"
-                                      th:field="*{description}" rows="2"></textarea>
-                        </div>
+                <div class="col-md-4">
+                    <div class="p-3 border border-secondary bg-dark shadow-sm">
+                        <h6 class="text-info font-monospace mb-3"><i class="bi bi-cpu-fill me-2"></i>PARAMETERS</h6>
 
-                        <div class="mb-3">
-                            <label class="form-label">Категория *</label>
-                            <select class="form-select" th:field="*{categoryId}" required>
-                                <option value="">Выберите категорию...</option>
+                        <div class="mb-4">
+                            <label class="form-label text-muted x-small">> SECTOR_ASSIGNMENT</label>
+                            <select class="form-select cyber-input" th:field="*{categoryId}" required>
+                                <option value="">SELECT_CATEGORY...</option>
                                 <option th:each="category : ${categories}"
                                         th:value="${category.id}"
                                         th:text="${category.name}">
                                 </option>
                             </select>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Фрагмент формы редактирования -->
-<div th:fragment="editProductForm">
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Редактировать контент</h5>
-                            <a th:href="@{/products}" class="btn btn-sm btn-outline-secondary">Назад к списку</a>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-cyber">
+                                <i class="bi bi-save2 me-2"></i>SAVE_CHANGES
+                            </button>
+                            <a th:href="@{/products}" class="btn btn-cyber-danger-sm text-center">
+                                ABORT_OPERATION
+                            </a>
                         </div>
-                    </div>
-                    <div class="card-body" th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">
-                        <form th:action="@{/products/update}" th:object="${product}" method="post">
-                            <input type="hidden" th:field="*{id}">
-
-                            <div class="mb-3">
-                                <label class="form-label">Наименование *</label>
-                                <input type="text" class="form-control"
-                                       th:field="*{title}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Описание</label>
-                                <textarea class="form-control"
-                                          th:field="*{description}" rows="3"></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Категория *</label>
-                                <select class="form-select" th:field="*{categoryId}" required>
-                                    <option value="">Выберите категорию...</option>
-                                    <option th:each="category : ${categories}"
-                                            th:value="${category.id}"
-                                            th:text="${category.name}">
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="d-flex justify-content-between">
-                                <a th:href="@{/products}" class="btn btn-secondary">Отмена</a>
-                                <button type="submit" class="btn btn-primary">Обновить</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div sec:authorize="!hasAnyRole('ADMIN', 'MANAGER')" class="content-card text-center p-5">
-                        <i class="bi bi-shield-lock text-danger" style="font-size: 3rem;"></i>
-                        <h4 class="mt-3">Доступ ограничен</h4>
-                        <p class="text-muted">У вас нет прав для редактирования контента. Пожалуйста, обратитесь к администратору.</p>
-                        <a th:href="@{/}" class="btn btn-primary mt-2">На главную</a>
                     </div>
                 </div>
             </div>
+        </form>
+    </div>
 
-        </div>
+    <div sec:authorize="!hasAnyRole('ADMIN', 'MANAGER')" class="terminal-card text-center p-5">
+        <i class="bi bi-shield-slash text-danger" style="font-size: 3rem;"></i>
+        <h4 class="text-danger mt-3 font-monospace">ACCESS_DENIED</h4>
+        <p class="text-muted">Недостаточно прав для модификации сущности. Инцидент будет записан.</p>
+        <a th:href="@{/}" class="btn btn-cyber mt-2">RETURN_TO_HOME</a>
     </div>
 </div>
+</body>
+</html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru" xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">-->
+<!--<div th:fragment="productFormModal">-->
+<!--    &lt;!&ndash; Модальное окно для добавления &ndash;&gt;-->
+<!--    <div class="modal fade" id="productModal" tabindex="-1">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title">Добавить контент</h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+<!--                </div>-->
+<!--                <form th:action="@{/products}" th:object="${product}" method="post"-->
+<!--                      th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">-->
+<!--                    <input type="hidden" th:field="*{rating}" th:value="${product.rating}">-->
+<!--                    <input type="hidden" th:field="*{reviewCount}" th:value="${product.reviewCount}">-->
+<!--                    <div class="modal-body">-->
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Наименование *</label>-->
+<!--                            <input type="text" class="form-control"-->
+<!--                                   th:field="*{title}" required>-->
+<!--                        </div>-->
+
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Описание</label>-->
+<!--                            <textarea class="form-control"-->
+<!--                                      th:field="*{description}" rows="2"></textarea>-->
+<!--                        </div>-->
+
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Категория *</label>-->
+<!--                            <select class="form-select" th:field="*{categoryId}" required>-->
+<!--                                <option value="">Выберите категорию...</option>-->
+<!--                                <option th:each="category : ${categories}"-->
+<!--                                        th:value="${category.id}"-->
+<!--                                        th:text="${category.name}">-->
+<!--                                </option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>-->
+<!--                        <button type="submit" class="btn btn-primary">Сохранить</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Фрагмент формы редактирования &ndash;&gt;-->
+<!--<div th:fragment="editProductForm">-->
+<!--    <div class="container mt-4">-->
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="col-md-8">-->
+<!--                <div class="card">-->
+<!--                    <div class="card-header">-->
+<!--                        <div class="d-flex justify-content-between align-items-center">-->
+<!--                            <h5 class="mb-0">Редактировать контент</h5>-->
+<!--                            <a th:href="@{/products}" class="btn btn-sm btn-outline-secondary">Назад к списку</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card-body" th:if="${#authorization.expression('hasAnyRole(''ADMIN'', ''MANAGER'')')}">-->
+<!--                        <form th:action="@{/products/update}" th:object="${product}" method="post">-->
+<!--                            <input type="hidden" th:field="*{id}">-->
+
+<!--                            <div class="mb-3">-->
+<!--                                <label class="form-label">Наименование *</label>-->
+<!--                                <input type="text" class="form-control"-->
+<!--                                       th:field="*{title}" required>-->
+<!--                            </div>-->
+
+<!--                            <div class="mb-3">-->
+<!--                                <label class="form-label">Описание</label>-->
+<!--                                <textarea class="form-control"-->
+<!--                                          th:field="*{description}" rows="3"></textarea>-->
+<!--                            </div>-->
+
+<!--                            <div class="mb-3">-->
+<!--                                <label class="form-label">Категория *</label>-->
+<!--                                <select class="form-select" th:field="*{categoryId}" required>-->
+<!--                                    <option value="">Выберите категорию...</option>-->
+<!--                                    <option th:each="category : ${categories}"-->
+<!--                                            th:value="${category.id}"-->
+<!--                                            th:text="${category.name}">-->
+<!--                                    </option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+
+<!--                            <div class="d-flex justify-content-between">-->
+<!--                                <a th:href="@{/products}" class="btn btn-secondary">Отмена</a>-->
+<!--                                <button type="submit" class="btn btn-primary">Обновить</button>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                    <div sec:authorize="!hasAnyRole('ADMIN', 'MANAGER')" class="content-card text-center p-5">-->
+<!--                        <i class="bi bi-shield-lock text-danger" style="font-size: 3rem;"></i>-->
+<!--                        <h4 class="mt-3">Доступ ограничен</h4>-->
+<!--                        <p class="text-muted">У вас нет прав для редактирования контента. Пожалуйста, обратитесь к администратору.</p>-->
+<!--                        <a th:href="@{/}" class="btn btn-primary mt-2">На главную</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

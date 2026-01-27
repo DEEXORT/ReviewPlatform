@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="20240522-3-reviews-ru" author="gemini">
+        <insert tableName="reviews">
+            <column name="content" value="Это лучшее дополнение, в которое я играл. Боссы заставляют страдать, но дизайн мира просто запредельный. 10 фляг с эстусом из 10."/>
+            <column name="product_id" valueNumeric="1"/>
+            <column name="username" value="SoulsWalker"/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="created_at" valueDate="2024-05-20T10:00:00"/>
+        </insert>
+        <insert tableName="reviews">
+            <column name="content" value="Слишком сложно для обычного игрока. Потратил 4 часа на первого босса и удалил. Но выглядит красиво, этого не отнять."/>
+            <column name="product_id" valueNumeric="1"/>
+            <column name="username" value="CasualPlayer"/>
+            <column name="rating" valueNumeric="3"/>
+            <column name="created_at" valueDate="2024-05-21T15:30:00"/>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="content" value="С выходом Phantom Liberty игра наконец-то стала такой, какой должна была быть на релизе. Сюжет дополнения — чистый восторг и шпионский триллер."/>
+            <column name="product_id" valueNumeric="2"/>
+            <column name="username" value="NetRunner_01"/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="created_at" valueDate="2024-05-18T12:00:00"/>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="content" value="Визуальный оргазм. Вильнёв — гений. Звук в IMAX просто сотрясает кости. Обязательно к просмотру всем любителям фантастики."/>
+            <column name="product_id" valueNumeric="3"/>
+            <column name="username" value="Cinephile"/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="created_at" valueDate="2024-05-19T18:45:00"/>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="content" value="Боялся, что испортят, но сериал передал дух игры на все сто. Гуль — просто харизматичный красавец. Жду второй сезон!"/>
+            <column name="product_id" valueNumeric="4"/>
+            <column name="username" value="VaultDweller"/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="created_at" valueDate="2024-05-22T09:15:00"/>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="content" value="Мощность запредельная, но цена и энергопотребление пугают. Пришлось покупать новый блок питания на 1.5 кВт. Для 4К гейминга альтернатив нет."/>
+            <column name="product_id" valueNumeric="6"/>
+            <column name="username" value="HardwareEnthusiast"/>
+            <column name="rating" valueNumeric="4"/>
+            <column name="created_at" valueDate="2024-05-22T14:20:00"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

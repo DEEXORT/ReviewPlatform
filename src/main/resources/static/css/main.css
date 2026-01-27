@@ -4,6 +4,11 @@
     --bg-light: #f8fafc;
     --sidebar-bg: #ffffff;
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff007f;
+    --text-main: #e6edf3;    /* Светло-серый/белый для текста */
+    --text-muted: #acb7c5;   /* Серый для второстепенного текста */
+    --dark-bg: #0d1117;
 }
 
 body {
@@ -61,7 +66,7 @@ body {
 
 .form-label {
     font-weight: 600;
-    color: #334155;
+    color: #4e5c77;
     margin-bottom: 0.5rem;
 }
 
@@ -101,4 +106,460 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+}
+
+/* Cyber styles */
+/* Терминальное окно */
+.terminal-window {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+.terminal-header {
+    background: #161b22;
+    padding: 8px 15px;
+    border-bottom: 1px solid #30363d;
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+
+/* Таблица в стиле киберпанк */
+.table-cyber {
+    background: transparent;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-cyber th {
+    background: #161b22;
+    color: #8b949e;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid #30363d;
+    padding: 12px;
+}
+
+.table-cyber td {
+    border-bottom: 1px solid #21262d;
+    padding: 12px;
+}
+
+/* Кнопки */
+.btn-cyber {
+    background: transparent;
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-family: 'Fira Code', monospace;
+    transition: 0.3s;
+}
+
+.btn-cyber:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+.btn-cyber-sm {
+    border: 1px solid #30363d;
+    color: var(--neon-blue);
+    background: #161b22;
+}
+
+.btn-cyber-sm:hover { color: #fff; border-color: var(--neon-blue); }
+
+.btn-cyber-danger:hover { color: #fff; border-color: var(--neon-pink); background: var(--neon-pink); }
+
+/* Индикатор рейтинга (Vitals) */
+.rating-vitals {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-value {
+    color: #ffbd2e;
+    font-weight: bold;
+    min-width: 25px;
+}
+
+.vitals-bar {
+    width: 60px;
+    height: 4px;
+    background: #21262d;
+    border-radius: 2px;
+}
+
+.vitals-fill {
+    height: 100%;
+    background: #ffbd2e;
+    box-shadow: 0 0 5px #ffbd2e;
+}
+
+/* Контейнер сайдбара */
+.sidebar-cyber {
+    min-width: 250px;
+    height: calc(100vh - 56px); /* Высота минус хедер */
+    background: #0d1117;
+    border-right: 1px solid #30363d;
+    padding: 1rem;
+}
+
+/* Ссылки */
+.nav-link-cyber {
+    color: #c9d1d9;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.nav-link-cyber:hover {
+    background-color: rgba(0, 243, 255, 0.1);
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+.parent-dir {
+    font-weight: 600;
+    color: var(--neon-blue);
+}
+
+/* Эффект дерева файлов */
+.file-tree {
+    border-left: 1px solid #30363d;
+    margin-left: 10px;
+}
+
+.tree-item {
+    position: relative;
+}
+
+/* Горизонтальные линии к папкам */
+.tree-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 15px;
+    width: 10px;
+    border-top: 1px solid #30363d;
+}
+
+.file-link {
+    padding-left: 15px !important;
+}
+
+.admin-link {
+    color: var(--neon-pink) !important;
+}
+
+.admin-link:hover {
+    box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.2);
+}
+
+.x-small { font-size: 0.7rem; }
+
+/* Ошибки валидации Spring */
+.error-text {
+    color: var(--neon-pink);
+    font-size: 0.7rem;
+    font-family: 'Fira Code', monospace;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+/* Названия полей */
+.x-small {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+}
+
+/* Настройка модальных окон в том же стиле */
+/*.modal-content {*/
+/*    background-color: var(--card-bg) !important;*/
+/*    border: 1px solid var(--neon-blue) !important;*/
+/*    color: var(--text-main);*/
+/*}*/
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.review-stream {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.log-entry {
+    background: #0d1117;
+    border-left: 3px solid var(--neon-blue);
+    padding: 15px;
+    position: relative;
+    transition: 0.3s;
+}
+
+.log-entry:hover {
+    background: #161b22;
+    box-shadow: -5px 0 15px var(--neon-blue);
+}
+
+.log-timestamp {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.log-content {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+}
+
+.btn-cyber-danger-sm {
+    background: transparent;
+    border: 1px solid var(--neon-pink);
+    color: var(--neon-pink);
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.btn-cyber-danger-sm:hover {
+    background: var(--neon-pink);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+/* Карточки категорий */
+.terminal-card {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.terminal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+    border-color: var(--neon-blue);
+}
+
+/* Специфические кнопки для категорий */
+.btn-cyber-sm {
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    background: transparent;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-family: 'Fira Code', monospace;
+}
+
+/* Глобальный фон для всей страницы */
+.cyber-viewport {
+    background-color: #0d1117; /* Наш глубокий черный */
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Область контента */
+.content-area {
+    background: radial-gradient(circle at top right, #161b22, #0d1117);
+    min-height: calc(100vh - 56px); /* Высота без хедера */
+    position: relative;
+}
+
+/* Эффект сетки на фоне (очень по-хакерски) */
+.background-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+            linear-gradient(rgba(48, 54, 61, 0.2) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(48, 54, 61, 0.2) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Контент должен быть выше сетки */
+.content-area, .container-fluid {
+    z-index: auto !important; /* Возвращаем в стандартный поток */
+}
+
+/* Скроллбар в стиле Chrome/Edge */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-blue);
+}
+
+/* Фикс для того, чтобы модалка не уходила под фон */
+.modal-backdrop {
+    z-index: 1060 !important; /* Backdrop выше всего */
+}
+
+.modal {
+    z-index: 1070 !important; /* Окно выше Backdrop */
+}
+
+/* Убедимся, что сетка background-grid не перекрывает клики */
+.background-grid {
+    pointer-events: none !important; /* Гарантируем, что сетка не ловит клики */
+    z-index: -1 !important; /* Уводим в самый низ */
+}
+
+/* Фикс для кликабельности: если модалка открыта, body не должен мешать */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Текст в инпутах модалок */
+.cyber-input {
+    background-color: #161b22 !important;
+    border: 1px solid #30363d !important;
+    color: var(--neon-blue) !important;
+    font-family: 'Fira Code', monospace;
+}
+
+.cyber-input:focus {
+    box-shadow: 0 0 10px var(--neon-blue) !important;
+    border-color: var(--neon-blue) !important;
+}
+
+/* Убираем белые фоны у стандартных компонентов внутри контента */
+.content-area .card,
+.content-area .table,
+.content-area .modal-content {
+    background-color: transparent !important;
+    color: var(--text-main) !important;
+}
+
+/* Фикс для таблиц Bootstrap 5 (у них часто стоит белый фон на строках) */
+.table-cyber {
+    --bs-table-bg: transparent !important;
+    --bs-table-color: var(--text-main) !important;
+    background-color: #0d1117 !important; /* Глубокий черный для таблицы */
+}
+
+.table-cyber tbody tr {
+    background-color: transparent !important;
+}
+
+.table-cyber tbody tr:hover {
+    background-color: rgba(0, 243, 255, 0.05) !important; /* Легкая подсветка при наведении */
+}
+
+/* Если где-то остался старый класс .card-body */
+.card-body {
+    background: transparent !important;
+}
+
+/* Навбар в стиле терминала */
+.navbar-cyber {
+    background: #0d1117 !important;
+    border-bottom: 2px solid #30363d;
+    padding: 0.8rem 0;
+}
+
+.navbar-brand-cyber {
+    color: var(--neon-blue);
+    font-family: 'Fira Code', monospace;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+}
+
+.brand-deco { animation: blink 1s infinite; color: var(--neon-pink); }
+@keyframes blink { 50% { opacity: 0; } }
+
+.v-tag {
+    font-size: 0.6rem;
+    vertical-align: top;
+    color: var(--text-muted);
+}
+
+/* Кнопка профиля */
+.btn-user-profile {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 4px;
+    padding: 5px 12px;
+    transition: 0.3s;
+}
+
+.btn-user-profile:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.user-avatar-cyber {
+    width: 24px;
+    height: 24px;
+    background: var(--neon-blue);
+    color: #000;
+    border-radius: 2px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Индикатор статуса */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #27c93f;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #27c93f;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Выпадающее меню */
+.dropdown-item {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+    transition: 0.2s;
+}
+
+.dropdown-item:hover {
+    background: rgba(0, 243, 255, 0.1) !important;
+    color: var(--neon-blue) !important;
+    padding-left: 25px;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+    /* Или используй конкретный светлый оттенок, если переменная кажется темной */
+    /* color: #94a3b8 !important; */
+
+    opacity: 0.8; /* Необязательно: добавляет легкую прозрачность для мягкости */
+}
+
+/* Если хочешь, чтобы в терминальных окнах текст был еще более четким */
+.terminal-window .text-muted,
+.terminal-card .text-muted {
+    color: #a1a1aa !important; /* Более светлый серый для темного фона */
 }

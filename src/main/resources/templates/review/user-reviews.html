@@ -1,85 +1,61 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="reviews">
     <div class="container mt-4">
-        <!-- Кнопка добавления -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Мои обзоры</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+            <div>
+                <h2 class="cyber-glitch-title">
+                    <span class="text-muted">LOG_PATH:</span> /root/user/activity_log
+                </h2>
+                <div class="font-monospace text-info small">
+                    STATUS: MONITORING_REVIEWS | ENCRYPTION: ACTIVE
+                </div>
+            </div>
         </div>
 
-        <!-- Таблица -->
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Заголовок</th>
-                        <th>Категория</th>
-                        <th>Продукт</th>
-                        <th>Оценка</th>
-                        <th>Действия</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!--/*@thymesVar id="reviews" type="com.javarush.reviewplatform.review.ReviewTo"*/-->
-                    <tr th:each="review, iterStat : ${reviews}">
-                        <td th:text="${iterStat.count}"></td>
-                        <td th:text="${review.title}"></td>
-                        <td>
-              <span th:if="${review.categoryName}"
-                    class="badge bg-info"
-                    th:text="${review.categoryName}">
-              </span>
-                            <span th:unless="${review.categoryName}"
-                                  class="badge bg-secondary">
-                Без категории
-              </span>
-                        </td>
-                        <td>
-              <span th:if="${review.productName}"
-                    th:text="${review.productName}">
-              </span>
-                            <span th:unless="${review.productName}"
-                                  class="text-muted">
-                —
-              </span>
-                        </td>
-                        <td>
-              <span th:if="${review.rating != null || review.rating > 0.0}"
-                    th:text="${review.rating}">
-              </span>
-                            <span th:if="${review.rating == null || review.rating == 0.0}">
-                Нет оценок
-                </span>
-                        </td>
-                        <td>
-                            <!-- Форма удаления -->
-                            <form th:action="@{/reviews/delete/{id}(id=${review.id})}"
-                                  method="post"
-                                  class="d-inline">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit"
-                                        class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('Удалить продукт?')">
-                                    Удалить
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(reviews)}">
-                        <td colspan="5" class="text-center text-muted py-4">
-                            У вас нет оценок
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="review-stream">
+            <div th:each="review, iterStat : ${reviews}" class="log-entry mb-3">
+                <div class="log-header d-flex justify-content-between align-items-center">
+                    <span class="log-timestamp font-monospace"
+                          th:text="${'[' + #strings.toUpperCase(T(java.lang.Integer).toHexString(iterStat.count + 1000)) + ']'}">
+                        [0x3E8]
+                    </span>
+                    <span class="badge badge-cyber" th:text="${review.categoryName}">CATEGORY</span>
+                </div>
+
+                <div class="log-body mt-2">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="target-info">
+                            <span class="text-muted small">TARGET:</span>
+                            <span class="text-info fw-bold" th:text="${review.productName}">Product</span>
+                        </div>
+                        <div class="rating-info">
+                            <span class="text-muted small">INDEX:</span>
+                            <span class="text-warning fw-bold" th:text="${review.rating ?: '0.0'}">5.0</span>
+                        </div>
+                    </div>
+
+                    <div class="log-content mt-2">
+                        <span class="command-prefix">></span>
+                        <span class="text-muted" th:text="${review.title}">Заголовок обзора</span>
+                    </div>
+                </div>
+
+                <div class="log-actions mt-2 pt-2 border-top border-dark d-flex justify-content-end">
+                    <form th:action="@{/reviews/delete/{id}(id=${review.id})}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn-cyber-danger-sm"
+                                onclick="return confirm('WIPE_DATA: Вы уверены?')">
+                            <i class="bi bi-trash3 me-1"></i>TERMINATE_RECORD
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(reviews)}" class="terminal-card p-5 text-center">
+                <div class="text-danger font-monospace mb-2">NO_ACTIVITY_DETECTED</div>
+                <div class="text-muted small">Журнал пуст. Пользователь еще не оставил ни одного следа в системе.</div>
             </div>
         </div>
     </div>
