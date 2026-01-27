@@ -31,7 +31,7 @@ public class AuthRestController {
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
 
-    @PostMapping("/login")
+    @PostMapping(Constant.Path.LOGIN)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> login(@RequestBody String requestBody) throws JsonProcessingException {
         AuthRequest authRequest = objectMapper.readValue(requestBody, AuthRequest.class);

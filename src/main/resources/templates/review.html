@@ -1,38 +1,149 @@
-<div th:fragment="review-form" class="content-card">
-    <div class="mb-4">
-        <span class="badge bg-light text-primary p-2">
-            <i class="bi bi-tag-fill me-1"></i>
-            <span th:text="'Обзор на ' + ${product.title}"></span>
-        </span>
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="review-form">
+    <div class="terminal-card border-start border-4 border-info shadow-lg p-4">
+        <div class="mb-4 d-flex align-items-center justify-content-between">
+            <span class="badge bg-dark text-info border border-info p-2 font-monospace">
+                <i class="bi bi-cpu-fill me-2"></i>
+                <span id="typewriter-text" th:data-target-text="'TARGET_ENTITY: ' + ${product.title}"></span>
+                <span class="typewriter-cursor">|</span>
+            </span>
+            <div class="font-monospace text-muted x-small d-none d-md-block" id="status-line">
+                STATUS: DECRYPTING...
+            </div>
+        </div>
+
+        <form th:action="@{/reviews}" th:method="post" th:object="${review}">
+            <input type="hidden" th:field="*{productId}">
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="rating" class="form-label text-muted x-small font-monospace">> INDEX_RATING</label>
+                    <select class="form-select cyber-input" id="rating" th:field="*{rating}">
+                        <option th:each="i : ${#numbers.sequence(10, 1)}"
+                                th:value="${i}" th:text="${i} + '.0'"></option>
+                    </select>
+                </div>
+
+                <div class="col-md-8 mb-3">
+                    <label for="title" class="form-label text-muted x-small font-monospace">> LOG_SUMMARY</label>
+                    <input id="title" type="text" class="form-control cyber-input"
+                           th:field="*{title}" placeholder="Введите краткую сводку..." required>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="content" class="form-label text-muted x-small font-monospace">> DETAILED_DATA_STREAM</label>
+                <textarea id="content" class="form-control cyber-input" rows="5"
+                          th:field="*{content}" placeholder="Ожидание ввода данных пользователя..."></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center border-top border-secondary pt-4">
+                <a th:href="@{/products}" class="btn btn-cyber-sm">
+                    <i class="bi bi-arrow-left me-1"></i> ABORT_MISSION
+                </a>
+                <button type="submit" class="btn btn-cyber px-4">
+                    <i class="bi bi-shield-check me-2"></i> EXECUTE_SUBMIT
+                </button>
+            </div>
+        </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const element = document.getElementById('typewriter-text');
+            const statusLine = document.getElementById('status-line');
+            const text = element.getAttribute('data-target-text');
+            let index = 0;
 
-    <form th:action="@{/reviews}" th:method="post" th:object="${review}">
-        <input type="hidden" th:field="*{productId}">
+            function typeWriter() {
+                if (index < text.length) {
+                    element.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 50); // Скорость печати (50мс)
+                } else {
+                    // Когда печать закончена, меняем статус
+                    document.querySelector('.typewriter-cursor').style.display = 'none';
+                    statusLine.innerHTML = 'STATUS: ACCESS_GRANTED';
+                    statusLine.classList.add('status-ready');
+                }
+            }
 
-        <div class="mb-3">
-            <label for="rating" class="form-label">Оценка продукта</label>
-            <select class="form-select" id="rating" th:field="*{rating}">
-                <option th:each="i : ${#numbers.sequence(1, 10)}"
-                        th:value="${i}" th:text="${i}"></option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="title" class="form-label">Заголовок</label>
-            <input id="title" type="text" class="form-control"
-                   th:field="*{title}" placeholder="Коротко о главном">
-        </div>
-
-        <div class="mb-3">
-            <label for="content" class="form-label">Ваш отзыв</label>
-            <textarea id="content" class="form-control" rows="4"
-                      th:field="*{content}" placeholder="Расскажите подробнее..."></textarea>
-        </div>
-
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-check-lg me-1"></i> Сохранить обзор
-            </button>
-        </div>
-    </form>
+            // Запускаем с небольшой задержкой для эффекта
+            setTimeout(typeWriter, 500);
+        });
+    </script>
 </div>
+<div th:fragment="reviews">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+            <div>
+                <h2 class="cyber-glitch-title">
+                    <span class="text-muted">LOG:</span> /var/log/user_reviews
+                </h2>
+                <div class="font-monospace text-info small">
+                    TOTAL_ENTRIES: [[${reviews.size()}]] | SYSTEM: ACTIVE
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div th:each="review : ${reviews}" class="col-12 mb-4">
+                <div class="terminal-card border-start border-3 position-relative"
+                     th:classappend="${review.rating >= 8} ? 'border-info' : (${review.rating >= 5} ? 'border-warning' : 'border-danger')">
+
+                    <div class="position-absolute top-0 end-0 p-3 d-flex gap-2">
+                        <a th:if="${#authentication.name == review.username}"
+                           th:href="@{/reviews/edit/{id}(id=${review.id})}"
+                           class="btn btn-outline-info btn-cyber-xs">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <form th:if="${#authentication.name == review.username} or ${#authorization.expression('hasRole(''ADMIN'')')}"
+                              th:action="@{/reviews/delete/{id}(id=${review.id})}" th:method="post"
+                              onsubmit="return confirm('TERMINATE DATA ENTITY?')">
+                            <button type="submit" class="btn btn-outline-danger btn-cyber-xs">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="mb-2 font-monospace x-small">
+                            <span class="text-info">> USER:</span>
+                            <span class="text-main fw-bold" th:text="${review.username}">User</span>
+                            <span class="mx-2 text-muted">|</span>
+                            <span class="text-info">> TARGET:</span>
+                            <span class="text-main" th:text="${review.productName}">Product</span>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="badge bg-dark border border-info text-info me-3 font-monospace">
+                                RATING: [[${review.rating}]].0
+                            </div>
+                            <h5 class="mb-0 text-main fw-bold" th:text="${review.title}">Заголовок отзыва</h5>
+                        </div>
+
+                        <div class="p-3 bg-dark-soft border border-secondary-subtle rounded position-relative overflow-hidden">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25"
+                                 style="background-image: radial-gradient(#30363d 1px, transparent 1px); background-size: 20px 20px; pointer-events: none;"></div>
+
+                            <p class="mb-0 text-muted font-monospace small position-relative"
+                               style="white-space: pre-wrap; line-height: 1.6;"
+                               th:text="${review.content}">
+                                Здесь будет отображаться полный текст отзыва пользователя...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(reviews)}" class="col-12 text-center py-5 terminal-card">
+                <i class="bi bi-slash-circle text-muted mb-3" style="font-size: 2rem;"></i>
+                <p class="text-muted font-monospace">NO_DATA_FOUND: Логи пусты</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

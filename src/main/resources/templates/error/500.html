@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CRITICAL_ERROR | Terminal OS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .error-vignette {
+            background: radial-gradient(circle, rgba(255, 0, 127, 0.05) 0%, rgba(13, 17, 23, 1) 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .glitch-text {
+            color: var(--neon-pink);
+            text-shadow: 2px 0 #00f3ff, -2px 0 #fff;
+            animation: glitch 1s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .stack-trace-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #30363d;
+            color: #8b949e;
+            font-size: 0.75rem;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="cyber-viewport">
+<div class="error-vignette">
+    <div class="text-center p-5 terminal-card border-danger shadow-lg" style="max-width: 800px;">
+        <h1 class="display-1 glitch-text font-monospace fw-bold">500</h1>
+        <h3 class="text-white mb-4 font-monospace">CORE_DUMP: INTERNAL_SERVER_ERROR</h3>
+
+        <p class="text-muted mb-4">
+            Произошел каскадный сбой в ядре системы. Соединение с удаленным узлом разорвано.
+            Протоколы восстановления запущены.
+        </p>
+
+        <div class="stack-trace-box p-3 mb-4 font-monospace border-start border-danger border-3">
+            <div class="text-danger mb-2">>>> EXCEPTION_LOG:</div>
+            <div th:text="${exception != null ? exception.message : 'Unknown kernel panic'}">Error message here</div>
+            <div class="mt-2 text-muted x-small">TIMESTAMP: [[${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}]]</div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center gap-3">
+            <div class="font-monospace text-info small">
+                ПЕРЕПОДКЛЮЧЕНИЕ ЧЕРЕЗ: <span id="countdown">10</span>s
+            </div>
+            <div class="d-flex gap-3">
+                <a th:href="@{/}" class="btn btn-cyber">
+                    <i class="bi bi-house-door me-2"></i>ГЛАВНЫЙ_ТЕРМИНАЛ
+                </a>
+                <button onclick="location.reload()" class="btn btn-cyber-sm">
+                    <i class="bi bi-arrow-clockwise me-2"></i>REBOOT_LINK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Таймер обратного отсчета
+    let timeLeft = 10;
+    const display = document.getElementById('countdown');
+    const timer = setInterval(() => {
+        timeLeft--;
+        display.textContent = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            window.location.href = '/';
+        }
+    }, 1000);
+</script>
+</body>
+</html>

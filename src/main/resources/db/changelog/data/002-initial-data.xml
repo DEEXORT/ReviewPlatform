@@ -8,16 +8,17 @@
     <changeSet id="20240522-0-users" author="gemini">
         <insert tableName="users">
             <column name="id" valueNumeric="2"/>
-            <column name="username" value="admin"/>
-            <column name="password" value="{noop}admin"/> <column name="first_name" value="Системный"/>
-            <column name="last_name" value="Администратор"/>
-            <column name="email" value="admin@terminal.os"/>
-            <column name="role" value="ADMIN"/>
+            <column name="username" value="manager"/>
+            <column name="password" value="$2a$10$Xy4bglKEcrtZdiv3sPuupei.VtRiVHCCNss.CwL1awr8F..yVUyY."/>
+            <column name="first_name" value="Главный"/>
+            <column name="last_name" value="Менеджер"/>
+            <column name="email" value="manager@terminal.os"/>
+            <column name="role" value="MANAGER"/>
         </insert>
         <insert tableName="users">
             <column name="id" valueNumeric="3"/>
             <column name="username" value="cyber_user"/>
-            <column name="password" value="{noop}123"/>
+            <column name="password" value="$2a$10$cI1q8VAJm.pfc6uFcV8SGOWjfXDJ38sBgMzajmKFCFkQqH1A38HJS"/>
             <column name="first_name" value="Алекс"/>
             <column name="last_name" value="Джонсон"/>
             <column name="email" value="alex@net.ru"/>

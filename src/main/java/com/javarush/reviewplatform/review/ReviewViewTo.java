@@ -12,4 +12,5 @@ import lombok.experimental.SuperBuilder;
 public class ReviewViewTo extends ReviewTo {
     String categoryName;
     String productName;
+    String username;
 }

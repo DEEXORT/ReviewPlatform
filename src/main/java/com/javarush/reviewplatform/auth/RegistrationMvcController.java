@@ -2,6 +2,7 @@ package com.javarush.reviewplatform.auth;
 
 import com.javarush.reviewplatform.user.UserService;
 import com.javarush.reviewplatform.user.UserTo;
+import com.javarush.reviewplatform.util.Constant;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,15 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationMvcController {
     private final UserService userService;
 
-    @GetMapping("/register")
+    @GetMapping(Constant.Path.REGISTER)
     public String register(Model model) {
         model.addAttribute("userTo", new UserTo());
         model.addAttribute("templateName", "register");
         model.addAttribute("fragmentName", "register-form");
-        return "main";
+        return Constant.View.MAIN;
     }
 
-    @PostMapping("/register")
+    @PostMapping(Constant.Path.REGISTER)
     public String register(@Valid @ModelAttribute("userTo") UserTo userTo,
                            BindingResult result, Model model) {
         model.addAttribute("templateName", "register");
@@ -35,7 +36,7 @@ public class RegistrationMvcController {
         }
 
         if (result.hasErrors()) {
-            return "main";
+            return Constant.View.MAIN;
         }
 
         if (userService.existsByEmail(userTo.getEmail())) {
@@ -43,6 +44,6 @@ public class RegistrationMvcController {
         }
 
         userService.save(userTo);
-        return "redirect:/products";
+        return "redirect:" + Constant.Path.PRODUCTS;
     }
 }

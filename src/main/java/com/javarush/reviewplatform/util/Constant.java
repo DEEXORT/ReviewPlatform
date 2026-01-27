@@ -10,6 +10,8 @@ public final class Constant {
         public static final String CATEGORIES = "/categories";
         public static final String PRODUCTS = "/products";
         public static final String REVIEWS = "/reviews";
+        public static final String LOGIN = "/login";
+        public static final String REGISTER = "/register";
         public static final String API_CATEGORIES = "/api/v1/categories";
         public static final String API_PRODUCTS = "/api/v1/products";
         public static final String API_REVIEWS = "/api/v1/reviews";
@@ -21,5 +23,6 @@ public final class Constant {
     public static final class View {
         private View() {}
         public static final String MAIN = "main";
+        public static final String LOGIN = "login";
     }
 }

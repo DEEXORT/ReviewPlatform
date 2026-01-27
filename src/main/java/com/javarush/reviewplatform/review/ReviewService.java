@@ -40,4 +40,8 @@ public class ReviewService extends AbstractBaseService<Review, ReviewTo, ReviewR
         List<Review> reviews = repository.findByUserUsername(username);
         return reviews.stream().map(mapper::mapToViewDto).toList();
     }
+
+    public List<ReviewViewTo> getAllReviewViews() {
+        return repository.findAll().stream().map(mapper::mapToViewDto).toList();
+    }
 }

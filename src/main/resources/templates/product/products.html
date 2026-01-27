@@ -45,8 +45,13 @@
               <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-sm btn-cyber-sm">
                 <i class="bi bi-pencil"></i>
               </a>
-              <form th:action="@{/products/delete/{id}(id=${product.id})}" th:method="post" class="d-inline">
-                <button class="btn btn-sm btn-cyber-danger-sm"><i class="bi bi-trash"></i></button>
+              <form th:action="@{/products/delete/{id}(id=${product.id})}"
+                    th:method="post"
+                    sec:authorize="${hasAnyRole('ADMIN','MANAGER')}"
+                    class="d-inline">
+                <button class="btn btn-sm btn-cyber-danger-sm" onclick="return confirm('ERASE_SECTOR: Вы уверены?')">
+                  <i class="bi bi-trash"></i>
+                </button>
               </form>
             </td>
           </tr>
@@ -68,7 +73,8 @@
             <div class="row">
               <div class="col-md-12 mb-3">
                 <label class="form-label x-small">> PRODUCT_TITLE</label>
-                <input type="text" class="form-control cyber-input" th:field="*{title}" required>
+                <input type="text" class="form-control cyber-input" th:field="*{title}"
+                       placeholder="Введите название..." required>
               </div>
               <div class="col-md-12 mb-3">
                 <label class="form-label x-small">> CATEGORY_ID</label>
@@ -79,7 +85,8 @@
               </div>
               <div class="col-md-12">
                 <label class="form-label x-small">> DESCRIPTION_RAW</label>
-                <textarea class="form-control cyber-input" th:field="*{description}" rows="4"></textarea>
+                <textarea class="form-control cyber-input" th:field="*{description}" rows="4"
+                          placeholder="Описание сущности..."></textarea>
               </div>
             </div>
           </div>

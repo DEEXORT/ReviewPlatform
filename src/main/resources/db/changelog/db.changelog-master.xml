@@ -10,5 +10,16 @@
     <include file="db/changelog/2026/01/20-01-changelog.xml"/>
     <include file="db/changelog/2026/01/21-01-changelog.xml"/>
     <include file="db/changelog/2026/01/22-01-changelog.xml"/>
+    <include file="db/changelog/data/002-initial-data.xml"/>
+    <include file="db/changelog/data/003-initial-data.xml"/>
+
+    <changeSet id="reset-reviews-id-seq" author="gemini">
+        <sql dbms="postgresql">
+            SELECT setval('reviews_id_seq', (SELECT MAX(id) FROM reviews));
+            SELECT setval('products_id_seq', (SELECT MAX(id) FROM products));
+            SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
+            SELECT setval('categories_id_seq', (SELECT MAX(id) FROM categories));
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>

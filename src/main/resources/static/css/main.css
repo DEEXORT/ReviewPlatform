@@ -433,11 +433,24 @@ body.modal-open {
     border: 1px solid #30363d !important;
     color: var(--neon-blue) !important;
     font-family: 'Fira Code', monospace;
+    transition: all 0.3s ease;
 }
 
 .cyber-input:focus {
-    box-shadow: 0 0 10px var(--neon-blue) !important;
+    background-color: #0d1117 !important;
     border-color: var(--neon-blue) !important;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.15) !important;
+    outline: none;
+}
+
+.cyber-input::placeholder {
+    color: #79838f;
+    opacity: 0.6;
+}
+
+/* Специфика для выпадающего списка */
+select.cyber-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2001/XMLSchema-instance' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2300f3ff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
 }
 
 /* Убираем белые фоны у стандартных компонентов внутри контента */
@@ -562,4 +575,58 @@ body.modal-open {
 .terminal-window .text-muted,
 .terminal-card .text-muted {
     color: #a1a1aa !important; /* Более светлый серый для темного фона */
+}
+
+/* Анимация мигающего курсора */
+.typewriter-cursor {
+    display: inline-block;
+    color: var(--neon-blue);
+    font-weight: bold;
+    animation: blink-cursor 0.8s step-end infinite;
+}
+
+@keyframes blink-cursor {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Эффект для текста статуса */
+#status-line {
+    transition: color 0.5s ease;
+}
+
+.status-ready {
+    color: #27c93f !important; /* Зеленый при завершении */
+    text-shadow: 0 0 5px rgba(39, 201, 63, 0.5);
+}
+
+.bg-dark-soft {
+    background-color: rgba(22, 27, 34, 0.5);
+}
+
+.x-small {
+    font-size: 0.7rem;
+}
+
+.terminal-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.terminal-card:hover {
+    transform: translateX(5px);
+    box-shadow: -5px 0 15px rgba(0, 243, 255, 0.1);
+}
+
+.btn-cyber-xs {
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    border-radius: 2px;
+    background: rgba(13, 17, 23, 0.8);
+    border: 1px solid currentColor;
+    transition: 0.3s;
+}
+
+.btn-cyber-xs:hover {
+    box-shadow: 0 0 10px currentColor;
+    transform: translateY(-1px);
 }

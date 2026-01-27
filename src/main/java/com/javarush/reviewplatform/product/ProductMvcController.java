@@ -21,6 +21,8 @@ public class ProductMvcController {
     private final ProductService productService;
     private final CategoryService categoryService;
 
+
+
     @GetMapping
     public String showProducts(Model model) {
         List<ProductViewTo> products = productService.getProductViews();

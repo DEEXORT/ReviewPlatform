@@ -27,5 +27,6 @@ public interface ReviewMapper extends BaseMapper<Review, ReviewTo> {
 
     @Mapping(target = "categoryName", source = "product.category.name")
     @Mapping(target = "productName", source = "product.title")
+    @Mapping(target = "username", source = "user.username")
     ReviewViewTo mapToViewDto(Review entity);
 }

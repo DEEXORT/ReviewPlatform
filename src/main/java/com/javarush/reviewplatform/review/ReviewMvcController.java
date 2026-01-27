@@ -29,8 +29,28 @@ public class ReviewMvcController {
     private final ReviewService reviewService;
     private final UserService userService;
 
+    @GetMapping
+    public String showReviews(Model model) {
+        List<ReviewViewTo> reviews = reviewService.getAllReviewViews();
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("templateName", "review");
+        model.addAttribute("fragmentName", "reviews");
+        return Constant.View.MAIN;
+    }
+
+    @GetMapping("/edit/{reviewId}")
+    public String showEditReviewForm(@PathVariable Long reviewId, Model model) {
+        ReviewTo reviewTo = reviewService.getById(reviewId);
+        ProductTo product = productService.getById(reviewTo.getProductId());
+        model.addAttribute("review", reviewTo);
+        model.addAttribute("product", product);
+        model.addAttribute("templateName", "review");
+        model.addAttribute("fragmentName", "review-form");
+        return Constant.View.MAIN;
+    }
+
     @GetMapping("/product/{id}")
-    public String showReviewForm(@PathVariable Long id, Model model) {
+    public String showCreateReviewForm(@PathVariable Long id, Model model) {
         ProductTo product = productService.getById(id);
         ReviewTo review = new ReviewTo();
         review.setProductId(product.getId());
