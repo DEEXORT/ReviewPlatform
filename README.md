@@ -23,7 +23,6 @@
    docker logs -f review_platform
    ```
 
-
 3. **Доступ к интерфейсу:** Откройте [http://localhost:8080](https://www.google.com/search?q=http://localhost:8080)
 4. **Вход в систему (Default Users):**
 Используйте следующие учетные данные для тестирования уровней доступа:
