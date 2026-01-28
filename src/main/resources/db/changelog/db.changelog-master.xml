@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <include file="2026/01/14-01-changelog.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/2026/01/20-01-changelog.xml"/>
+    <include file="db/changelog/2026/01/21-01-changelog.xml"/>
+    <include file="db/changelog/2026/01/22-01-changelog.xml"/>
+    <include file="db/changelog/data/002-initial-data.xml"/>
+    <include file="db/changelog/data/003-initial-data.xml"/>
+
+    <changeSet id="reset-reviews-id-seq" author="gemini">
+        <sql dbms="postgresql">
+            SELECT setval('reviews_id_seq', (SELECT MAX(id) FROM reviews));
+            SELECT setval('products_id_seq', (SELECT MAX(id) FROM products));
+            SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
+            SELECT setval('categories_id_seq', (SELECT MAX(id) FROM categories));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

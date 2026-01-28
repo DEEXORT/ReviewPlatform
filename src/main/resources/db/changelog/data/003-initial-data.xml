@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="20240522-4-java-stack-ru" author="gemini">
+        <insert tableName="products">
+            <column name="id" valueNumeric="101"/>
+            <column name="title" value="Hibernate ORM"/>
+            <column name="description" value="Фреймворк для объектно-реляционного маппинга. Мост между твоим Java-кодом и суровой реальностью SQL-таблиц."/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="rating" valueNumeric="4.2"/>
+            <column name="review_count" valueNumeric="2"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" valueNumeric="102"/>
+            <column name="title" value="Spring Security"/>
+            <column name="description" value="Мощный инструмент для аутентификации и контроля доступа. Твой персональный вышибала на входе в API."/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="rating" valueNumeric="4.5"/>
+            <column name="review_count" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" valueNumeric="103"/>
+            <column name="title" value="Docker"/>
+            <column name="description" value="Контейнеризация приложений. Упакуй всё своё окружение в один 'ящик' и забудь про фразу 'на моей машине всё работает'."/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="rating" valueNumeric="5.0"/>
+            <column name="review_count" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" valueNumeric="104"/>
+            <column name="title" value="Apache Kafka"/>
+            <column name="description" value="Распределенная стриминговая платформа. Магистраль для обмена сообщениями в мире микросервисов."/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="rating" valueNumeric="4.7"/>
+            <column name="review_count" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" valueNumeric="105"/>
+            <column name="title" value="Redis"/>
+            <column name="description" value="Хранилище структур данных в памяти. Скорость света для твоего кэша и сессий."/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="rating" valueNumeric="4.9"/>
+            <column name="review_count" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" valueNumeric="106"/>
+            <column name="title" value="Prometheus"/>
+            <column name="description" value="Система мониторинга и алертинга. Глаза и уши твоей инфраструктуры."/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="rating" valueNumeric="4.4"/>
+            <column name="review_count" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="products">
+            <column name="id" valueNumeric="107"/>
+            <column name="title" value="ArchUnit"/>
+            <column name="description" value="Библиотека для проверки архитектуры Java-кода. Чтобы никто не смел втихаря импортировать логику из контроллера в репозиторий."/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="rating" valueNumeric="4.8"/>
+            <column name="review_count" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20240522-5-java-reviews-ru" author="gemini">
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="10"/>
+            <column name="title" value="Удобно, но опасно"/>
+            <column name="content" value="HQL — это круто, пока не ловишь N+1 проблему на ровном месте. Но без него писать запросы руками — это ад."/>
+            <column name="rating" valueNumeric="4"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="product_id" valueNumeric="101"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="11"/>
+            <column name="title" value="LazyInitializationException"/>
+            <column name="content" value="Мой старый враг... Но если разобраться с сессиями и транзакциями, то Hibernate становится лучшим другом бэкендщика."/>
+            <column name="rating" valueNumeric="4"/>
+            <column name="user_id" valueNumeric="2"/>
+            <column name="product_id" valueNumeric="101"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="12"/>
+            <column name="title" value="Безопасность — это больно"/>
+            <column name="content" value="Конфигурация через лямбды в новых версиях стала приятнее. Настроил JWT один раз и спишь спокойно."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="product_id" valueNumeric="102"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="13"/>
+            <column name="title" value="Маст-хэв 2024"/>
+            <column name="content" value="Как мы раньше деплоили без контейнеров? Настроил Dockerfile и забыл о проблемах с версиями Java на сервере."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="user_id" valueNumeric="2"/>
+            <column name="product_id" valueNumeric="103"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+
+        <insert tableName="reviews">
+            <column name="id" valueNumeric="14"/>
+            <column name="title" value="Для тех, кто вырос из RabbitMQ"/>
+            <column name="content" value="Скорость обработки сообщений поражает. Сложнее в настройке, чем кролик, но оно того стоит."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="product_id" valueNumeric="104"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

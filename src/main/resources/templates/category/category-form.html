@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<div th:fragment="categoryEditForm">
+    <div class="container mt-4">
+        <nav class="mb-4">
+            <div class="font-monospace x-small">
+                <a th:href="@{/categories}" class="text-info text-decoration-none">./SYSTEM/SECTORS</a> /
+                <span class="text-muted">RECONFIG_ID:[[${category.id}]]</span>
+            </div>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+            <h2 class="cyber-glitch-title">RECONFIGURE_SECTOR</h2>
+            <a th:href="@{/categories}" class="btn btn-cyber-sm">
+                <i class="bi bi-arrow-left"></i> BACK_TO_SYS
+            </a>
+        </div>
+
+        <div class="terminal-window p-4" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+            <form th:action="@{/categories/update}" th:object="${category}" th:method="post">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="row g-4">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label class="form-label text-muted x-small">> UPDATE_SECTOR_LABEL</label>
+                            <input type="text" class="form-control cyber-input" th:field="*{name}" required>
+                            <div class="error-text" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted x-small">> UPDATE_ALLOCATION_DETAILS</label>
+                            <textarea class="form-control cyber-input" th:field="*{description}" rows="8"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 border border-secondary bg-dark shadow-sm">
+                            <h6 class="text-info font-monospace mb-3"><i class="bi bi-cpu-fill me-2"></i>SECTOR_CONTROL</h6>
+                            <p class="text-muted x-small mb-4">
+                                Изменение параметров сектора затронет все связанные с ним объекты контента.
+                                Проверьте целостность данных перед записью.
+                            </p>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-cyber">
+                                    <i class="bi bi-save2 me-2"></i>WRITE_CHANGES
+                                </button>
+                                <a th:href="@{/categories}" class="btn btn-cyber-danger-sm text-center text-decoration-none">
+                                    ABORT_OVERWRITE
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-2 font-monospace x-small text-muted border border-secondary">
+                            <div>FILE_SYSTEM: EXT4</div>
+                            <div>MOUNT_POINT: /mnt/cat_[[${category.id}]]</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div sec:authorize="!hasAnyRole('ADMIN', 'MANAGER')" class="terminal-card text-center p-5 mt-4">
+            <i class="bi bi-shield-slash text-danger" style="font-size: 3rem;"></i>
+            <h4 class="text-danger mt-3 font-monospace">ACCESS_DENIED_ERROR</h4>
+            <p class="text-muted">Попытка несанкционированного изменения системного раздела. Ваш IP заблокирован (шутка).</p>
+            <a th:href="@{/}" class="btn btn-cyber mt-2">BACK_TO_SAFETY</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

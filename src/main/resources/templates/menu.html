@@ -1,0 +1,57 @@
+<div th:fragment="sidebar" class="sidebar-cyber">
+    <div class="sidebar-header border-bottom border-secondary mb-3 pb-2">
+        <span class="text-muted small fw-bold font-monospace">EXPLORER: REVIEW_SYS</span>
+    </div>
+
+    <div class="nav flex-column font-monospace">
+        <div class="nav-item mb-2">
+            <a th:href="@{/products}" class="nav-link-cyber parent-dir">
+                <i class="bi bi-folder2-open me-2 text-warning"></i>/root/content
+            </a>
+
+            <div class="file-tree ps-3 mt-1">
+                <div th:each="category : ${categories}" class="tree-item">
+                    <a th:href="@{/products/category/{id}(id = ${category.id})}"
+                       class="nav-link-cyber file-link">
+                        <i class="bi bi-folder-symlink me-2 text-info"></i><span th:text="${category.name}">Category</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <a th:href="@{/reviews}" class="nav-link-cyber mb-2 mt-3 parent-dir">
+            <i class="bi bi-folder2 text-warning me-2"></i>/root/logs/reviews
+        </a>
+
+        <div class="mt-auto pt-4 border-top border-secondary">
+            <h6 class="text-muted x-small mb-3 ps-2 font-monospace">SYSTEM_ADMIN</h6>
+            <a th:href="@{/categories}" class="nav-link-cyber admin-link">
+                <i class="bi bi-terminal me-2 text-danger"></i>sudo ./manage_dirs
+            </a>
+        </div>
+    </div>
+</div>
+<!--<div th:fragment="sidebar" class="sidebar">-->
+<!--    <h6>Навигация</h6>-->
+<!--    <div class="nav flex-column">-->
+<!--        <a th:href="@{/products}" class="mb-2">-->
+<!--            <i class="bi bi-box-seam me-2"></i>Контент-->
+<!--        </a>-->
+<!--        <div th:each="category : ${categories}" class="ps-3">-->
+<!--            <a th:href="@{/products/category/{id}(id = ${category.id})}"-->
+<!--               class="small d-block py-1">-->
+<!--                <i class="bi bi-chevron-right small me-1"></i>-->
+<!--                <span th:text="${category.name}"></span>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <a th:href="@{/reviews}" class="mb-2">-->
+<!--            <i class="bi bi-chat-left-text me-2"></i>Отзывы-->
+<!--        </a>-->
+
+<!--        <h6 class="mt-4">Категории</h6>-->
+<!--        <a th:href="@{/categories}" class="mb-2 text-primary fw-bold">-->
+<!--            <i class="bi bi-gear me-2"></i>Управление-->
+<!--        </a>-->
+
+<!--    </div>-->
+<!--</div>-->

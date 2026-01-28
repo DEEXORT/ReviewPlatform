@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<div th:fragment="categoriesContent">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+            <div>
+                <h2 class="cyber-glitch-title">
+                    <span class="text-muted">SYSTEM:</span> /dev/sda/sectors
+                </h2>
+                <div class="font-monospace text-info small">
+                    ACTIVE_SECTORS: [[${categories.size()}]] | ACCESS: [[${#authentication.name}]]
+                </div>
+            </div>
+            <button class="btn btn-cyber"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addCategoryModal"
+                    sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+                <i class="bi bi-plus-square me-2"></i>MOUNT_NEW_SECTOR
+            </button>
+        </div>
+
+        <div class="row">
+            <div th:each="cat : ${categories}" class="col-md-6 col-lg-4 mb-4">
+                <div class="terminal-card h-100 border-start border-4 border-info">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="text-info font-monospace mb-0" th:text="${cat.name}">Category Name</h5>
+                            <span class="badge badge-cyber">SEC_[[${cat.id}]]</span>
+                        </div>
+                        <p class="text-main small flex-grow-1 mb-4"
+                           th:text="${cat.description ?: 'No sector description available. Integrity check: OK.'}"></p>
+
+                        <div class="d-flex gap-2 justify-content-end border-top border-dark pt-3">
+                            <a th:href="@{/categories/edit/{id}(id=${cat.id})}"
+                               class="btn btn-sm btn-cyber-sm"
+                               sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+                                <i class="bi bi-pencil-square"></i> RE_CODE
+                            </a>
+
+                            <form th:action="@{/categories/delete/{id}(id=${cat.id})}" th:method="post" class="d-inline"
+                                  sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+                                <button type="submit" class="btn btn-sm btn-cyber-danger-sm"
+                                        onclick="return confirm('ERASE_SECTOR: Вы уверены?')">
+                                    <i class="bi bi-eraser"></i> PURGE
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        <div class="modal-dialog">
+            <div class="modal-content terminal-window">
+                <div class="modal-header border-secondary text-white">
+                    <h5 class="modal-title font-monospace"><i class="bi bi-hdd-network me-2"></i>INITIALIZE_SECTOR</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form th:action="@{/categories}" th:object="${category}" th:method="post">
+                    <div class="modal-body text-white">
+                        <div class="mb-3">
+                            <label class="form-label text-muted x-small">> SECTOR_LABEL</label>
+                            <input type="text" class="form-control cyber-input" th:field="*{name}" required placeholder="Введите название...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted x-small">> ALLOCATION_DETAILS</label>
+                            <textarea class="form-control cyber-input" th:field="*{description}" rows="3" placeholder="Описание сектора..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-cyber-sm" data-bs-dismiss="modal">ABORT</button>
+                        <button type="submit" class="btn btn-cyber">EXECUTE_MOUNT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

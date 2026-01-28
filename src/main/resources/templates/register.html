@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="register-form" class="auth-container">
+    <div class="terminal-auth">
+        <div class="scan-line"></div>
+
+        <div class="auth-header text-center mb-4">
+            <i class="bi bi-person-plus-fill text-info" style="font-size: 2.5rem;"></i>
+            <h2 class="mt-2">CREATE_IDENTITY</h2>
+            <p class="text-muted small">INITIATING NEW AGENT REGISTRATION...</p>
+        </div>
+
+        <form th:action="@{/register}" method="post" th:object="${userTo}">
+
+            <div class="mb-3">
+                <label class="form-label x-small text-muted font-monospace">> ALIAS / USERNAME</label>
+                <input type="text" th:field="*{username}" class="form-control cyber-input"
+                       placeholder="root_access" required>
+                <div class="error-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label x-small text-muted font-monospace">> SECURE_EMAIL</label>
+                <input type="email" th:field="*{email}" class="form-control cyber-input"
+                       placeholder="agent@net.com" required>
+                <div class="error-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label x-small text-muted font-monospace">> ACCESS_KEY</label>
+                <input type="password" id="passkey" th:field="*{password}" class="form-control cyber-input"
+                       placeholder="••••••••" required oninput="syncValidation()">
+
+                <div class="mt-2 d-flex align-items-center gap-2">
+                    <div class="vitals-bar flex-grow-1" style="height: 4px;">
+                        <div id="encryption-bar" class="vitals-fill" style="width: 0%; background: var(--neon-pink);"></div>
+                    </div>
+                    <span id="encryption-label" class="x-small font-monospace text-muted">STRENGTH: NULL</span>
+                </div>
+                <div class="error-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label x-small text-muted font-monospace">> CONFIRM_KEY</label>
+                <div class="position-relative">
+                    <input type="password" id="confirm_passkey" th:field="*{confirmPassword}"
+                           class="form-control cyber-input" placeholder="••••••••"
+                           required oninput="syncValidation()">
+
+                    <div id="sync-status" class="position-absolute top-50 end-0 translate-middle-y pe-3" style="display: none;">
+                        <i class="bi bi-cpu-fill"></i>
+                    </div>
+                </div>
+                <div class="error-text" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+                <div id="sync-error-js" class="error-text" style="display: none;">[WARNING]: KEYS_NOT_SYNCHRONIZED</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label x-small text-muted font-monospace">> FIRST_NAME</label>
+                    <input type="text" th:field="*{firstName}" class="form-control cyber-input" placeholder="John" required>
+                    <div class="error-text" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label x-small text-muted font-monospace">> LAST_NAME</label>
+                    <input type="text" th:field="*{lastName}" class="form-control cyber-input" placeholder="Doe">
+                    <div class="error-text" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-login w-100 py-2 mt-3">
+                EXECUTE_INITIALIZATION
+            </button>
+
+            <div class="text-center mt-3">
+                <a th:href="@{/login}" class="text-decoration-none x-small text-info font-monospace">
+                    [ ALREADY_HAVE_IDENTITY? LOGIN ]
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

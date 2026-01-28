@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<div th:fragment="editProductForm">
+    <nav class="mb-4">
+        <div class="font-monospace x-small">
+            <a th:href="@{/products}" class="text-info text-decoration-none">./PRODUCTS</a> /
+            <span class="text-muted">EDIT_ENTITY_ID:[[${product.id}]]</span>
+        </div>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+        <h2 class="cyber-glitch-title">RECONFIGURE_PRODUCT</h2>
+        <a th:href="@{/products}" class="btn btn-cyber-sm">
+            <i class="bi bi-arrow-left"></i> BACK_TO_LIST
+        </a>
+    </div>
+
+    <div class="terminal-window p-4" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        <form th:action="@{/products/update}" th:object="${product}" th:method="post" class="needs-validation">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{rating}"/>
+            <input type="hidden" th:field="*{reviewCount}"/>
+
+            <div class="row g-4">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label text-muted x-small">> ENTITY_TITLE</label>
+                        <input type="text" class="form-control cyber-input" th:field="*{title}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted x-small">> DATA_DESCRIPTION</label>
+                        <textarea class="form-control cyber-input" th:field="*{description}" rows="6"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 border border-secondary bg-dark shadow-sm">
+                        <h6 class="text-info font-monospace mb-3"><i class="bi bi-cpu-fill me-2"></i>PARAMETERS</h6>
+
+                        <div class="mb-4">
+                            <label class="form-label text-muted x-small">> SECTOR_ASSIGNMENT</label>
+                            <select class="form-select cyber-input" th:field="*{categoryId}" required>
+                                <option value="">SELECT_CATEGORY...</option>
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-cyber">
+                                <i class="bi bi-save2 me-2"></i>SAVE_CHANGES
+                            </button>
+                            <a th:href="@{/products}" class="btn btn-cyber-danger-sm text-center">
+                                ABORT_OPERATION
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div sec:authorize="!hasAnyRole('ADMIN', 'MANAGER')" class="terminal-card text-center p-5">
+        <i class="bi bi-shield-slash text-danger" style="font-size: 3rem;"></i>
+        <h4 class="text-danger mt-3 font-monospace">ACCESS_DENIED</h4>
+        <p class="text-muted">Недостаточно прав для модификации сущности. Инцидент будет записан.</p>
+        <a th:href="@{/}" class="btn btn-cyber mt-2">RETURN_TO_HOME</a>
+    </div>
+</div>
+</body>
+</html>
