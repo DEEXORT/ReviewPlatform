@@ -1,8 +1,13 @@
 package com.javarush.reviewplatform.review;
 
-import com.javarush.reviewplatform.product.Product;
-import com.javarush.reviewplatform.product.ProductService;
-import com.javarush.reviewplatform.product.ProductTo;
+import com.javarush.reviewplatform.product.model.Product;
+import com.javarush.reviewplatform.product.service.ProductService;
+import com.javarush.reviewplatform.product.model.ProductTo;
+import com.javarush.reviewplatform.review.mapper.ReviewMapper;
+import com.javarush.reviewplatform.review.model.Review;
+import com.javarush.reviewplatform.review.model.ReviewTo;
+import com.javarush.reviewplatform.review.repository.ReviewRepository;
+import com.javarush.reviewplatform.review.service.ReviewService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

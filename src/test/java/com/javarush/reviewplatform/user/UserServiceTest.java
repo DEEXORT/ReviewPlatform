@@ -1,5 +1,7 @@
 package com.javarush.reviewplatform.user;
 
+import com.javarush.reviewplatform.user.model.UserTo;
+import com.javarush.reviewplatform.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

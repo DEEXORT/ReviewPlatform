@@ -1,9 +1,9 @@
 package com.javarush.reviewplatform.auth.service;
 
-import com.javarush.reviewplatform.review.Review;
-import com.javarush.reviewplatform.review.ReviewRepository;
-import com.javarush.reviewplatform.user.User;
-import com.javarush.reviewplatform.user.UserRepository;
+import com.javarush.reviewplatform.review.model.Review;
+import com.javarush.reviewplatform.review.repository.ReviewRepository;
+import com.javarush.reviewplatform.user.model.User;
+import com.javarush.reviewplatform.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

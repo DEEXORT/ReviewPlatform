@@ -1,14 +1,14 @@
 package com.javarush.reviewplatform;
 
-import com.javarush.reviewplatform.category.Category;
-import com.javarush.reviewplatform.category.CategoryRepository;
-import com.javarush.reviewplatform.product.Product;
-import com.javarush.reviewplatform.product.ProductRepository;
-import com.javarush.reviewplatform.review.Review;
-import com.javarush.reviewplatform.review.ReviewRepository;
-import com.javarush.reviewplatform.user.Role;
-import com.javarush.reviewplatform.user.User;
-import com.javarush.reviewplatform.user.UserRepository;
+import com.javarush.reviewplatform.category.model.Category;
+import com.javarush.reviewplatform.category.repository.CategoryRepository;
+import com.javarush.reviewplatform.product.model.Product;
+import com.javarush.reviewplatform.product.repository.ProductRepository;
+import com.javarush.reviewplatform.review.model.Review;
+import com.javarush.reviewplatform.review.repository.ReviewRepository;
+import com.javarush.reviewplatform.user.model.Role;
+import com.javarush.reviewplatform.user.model.User;
+import com.javarush.reviewplatform.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

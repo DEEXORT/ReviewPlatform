@@ -3,6 +3,8 @@ package com.javarush.reviewplatform.category;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.reviewplatform.ContainerIT;
 import com.javarush.reviewplatform.TestDataService;
+import com.javarush.reviewplatform.category.model.Category;
+import com.javarush.reviewplatform.category.model.CategoryTo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -3,7 +3,7 @@ package com.javarush.reviewplatform.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.reviewplatform.auth.JwtAuthenticationFilter;
 import com.javarush.reviewplatform.auth.JwtCookieAuthenticationHandler;
-import com.javarush.reviewplatform.auth.JwtProvider;
+import com.javarush.reviewplatform.auth.service.JwtProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

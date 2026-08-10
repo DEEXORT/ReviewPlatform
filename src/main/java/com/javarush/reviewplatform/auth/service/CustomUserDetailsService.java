@@ -1,7 +1,7 @@
 package com.javarush.reviewplatform.auth.service;
 
-import com.javarush.reviewplatform.user.User;
-import com.javarush.reviewplatform.user.UserRepository;
+import com.javarush.reviewplatform.user.model.User;
+import com.javarush.reviewplatform.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

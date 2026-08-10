@@ -1,6 +1,7 @@
 package com.javarush.reviewplatform.auth;
 
 import com.javarush.reviewplatform.auth.service.CustomUserDetails;
+import com.javarush.reviewplatform.auth.service.JwtProvider;
 import com.javarush.reviewplatform.util.Constant;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
