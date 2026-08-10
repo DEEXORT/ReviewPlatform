@@ -17,7 +17,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 })
 @ActiveProfiles(value = "test")
 public abstract class ContainerIT {
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest")
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
             .withDatabaseName("testdb")
             .withUsername("test")
             .withPassword("test");

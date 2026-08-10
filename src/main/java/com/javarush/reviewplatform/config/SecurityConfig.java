@@ -5,6 +5,8 @@ import com.javarush.reviewplatform.auth.JwtAuthenticationFilter;
 import com.javarush.reviewplatform.auth.JwtCookieAuthenticationHandler;
 import com.javarush.reviewplatform.auth.service.JwtProvider;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -28,11 +30,14 @@ import java.util.Map;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final JwtProvider jwtProvider;
 
     @Bean
     @Order(1)
-    SecurityFilterChain restSecurityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain restSecurityFilterChain(HttpSecurity http,
+                                                JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .securityMatcher("/api/v1/**")
@@ -44,13 +49,14 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(authenticationEntryPoint()))
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
     @Order(2)
-    public SecurityFilterChain uiSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain uiSecurityFilterChain(HttpSecurity http,
+                                                     JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(
@@ -64,7 +70,7 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(
                         fl -> fl
                                 .loginPage("/login")
@@ -95,17 +101,12 @@ public class SecurityConfig {
 
     @Bean
     public JwtCookieAuthenticationHandler jwtAuthenticationHandler() {
-        return new JwtCookieAuthenticationHandler(jwtProvider());
+        return new JwtCookieAuthenticationHandler(jwtProvider);
     }
 
     @Bean
-    public JwtProvider jwtProvider() {
-        return new JwtProvider();
-    }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+    public JwtAuthenticationFilter jwtAuthenticationFilter(@Value("${jwt.secret}") String secret) {
+        return new JwtAuthenticationFilter(secret);
     }
 
     @Bean

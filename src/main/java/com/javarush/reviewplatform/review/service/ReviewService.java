@@ -1,6 +1,7 @@
 package com.javarush.reviewplatform.review.service;
 
 import com.javarush.reviewplatform.common.AbstractBaseService;
+import com.javarush.reviewplatform.product.model.RatingStatistics;
 import com.javarush.reviewplatform.product.service.ProductService;
 import com.javarush.reviewplatform.product.model.ProductTo;
 import com.javarush.reviewplatform.review.mapper.ReviewMapper;
@@ -32,11 +33,10 @@ public class ReviewService extends AbstractBaseService<Review, ReviewTo, ReviewR
 
     private ProductTo updateProduct(Long productId) {
         ProductTo product = productService.getById(productId);
-        List<Review> reviews = repository.findByProductId(productId);
 
-        double avgRating = reviews.stream().mapToInt(Review::getRating).average().orElse(0);
-        product.setRating(Math.round(avgRating * 10.0) / 10.0);
-        product.setReviewCount(reviews.size());
+        RatingStatistics stats = repository.getRatingStatistics(productId);
+        product.setRating(Math.round(stats.getAvg() * 10.0) / 10.0);
+        product.setReviewCount(Math.toIntExact(stats.getCount()));
 
         return productService.save(product);
     }

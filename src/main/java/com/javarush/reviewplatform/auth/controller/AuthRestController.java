@@ -3,6 +3,7 @@ package com.javarush.reviewplatform.auth.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.reviewplatform.auth.model.AuthRequest;
+import com.javarush.reviewplatform.auth.model.AuthResponse;
 import com.javarush.reviewplatform.auth.service.JwtProvider;
 import com.javarush.reviewplatform.auth.service.CustomUserDetails;
 import com.javarush.reviewplatform.util.Constant;
@@ -46,12 +47,12 @@ public class AuthRestController {
         String token = jwtProvider.generateToken(userDetails, roles);
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .body(Map.of(
-                        "username", userDetails.getUsername(),
-                        "roles", roles,
-                        "token_type", "Bearer",
-                        "token", token,
-                        "expires_in", jwtProvider.getExpiration()
-                ));
+                .body(AuthResponse.builder()
+                        .username(userDetails.getUsername())
+                        .roles(roles)
+                        .tokenType("Bearer")
+                        .token(token)
+                        .expiresIn(jwtProvider.getExpiration())
+                        .build());
     }
 }

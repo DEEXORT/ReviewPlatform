@@ -13,7 +13,7 @@ public abstract class AbstractBaseService<E extends HasId, T extends BaseTo, R e
 
     @Transactional
     public T save(T to) {
-        if (to == null) throw new NullPointerException("DTO object cannot be null");
+        if (to == null) throw new IllegalArgumentException("DTO object cannot be null");
 
         E entity = mapper.mapToEntity(to);
         E savedEntity = repository.save(entity);
@@ -21,7 +21,7 @@ public abstract class AbstractBaseService<E extends HasId, T extends BaseTo, R e
     }
 
     public T getById(Long id) {
-        if (id == null) throw new NullPointerException("id is null");
+        if (id == null) throw new IllegalArgumentException("id is null");
 
         E entity = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with id = " + id + " not found"));
         return mapper.mapToDto(entity);

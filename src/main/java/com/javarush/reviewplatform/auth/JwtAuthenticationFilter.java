@@ -11,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,21 +20,16 @@ import java.io.IOException;
 import java.util.List;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Value("${jwt.secret}")
-    private String secret;
 
-    private JWTVerifier verifier;
+    private final JWTVerifier verifier;
 
-    private synchronized void initVerifier() {
-        if (verifier == null) {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            verifier = JWT.require(algorithm).build();
-        }
+    public JwtAuthenticationFilter(String secret) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        this.verifier = JWT.require(algorithm).build();
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        initVerifier();
         String token;
         token = getJwtTokenFromHeaders(request);
         if (token == null) token = getJwtTokenFromCookies(request);

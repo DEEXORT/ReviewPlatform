@@ -5,13 +5,13 @@ spring:
           enabled: true
           change-log: db/changelog/db.changelog-master.xml
      datasource:
-          url: jdbc:postgresql://localhost:5432/project
-          username: postgres
-          password: postgres
+          url: ${DB_URL}
+          username: ${DB_USERNAME}
+          password: ${DB_PASSWORD}
           driver-class-name: org.postgresql.Driver
 jwt:
-     secret: jwt-secret
-     expiration: 900000 # 15 minutes
+     secret: ${JWT_SECRET}
+     expiration: ${JWT_EXPIRATION:900000} # 15 minutes
 springdoc:
      swagger-ui:
           path: /api-docs.html
