@@ -3,3 +3,7 @@ spring:
     hikari:
       max-lifetime: 30000
       connection-timeout: 10000
+
+jwt:
+  secret: test-jwt-secret-for-integration-tests
+  expiration: 900000 # 15 minutes

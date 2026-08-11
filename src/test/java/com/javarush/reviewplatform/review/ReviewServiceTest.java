@@ -1,8 +1,9 @@
 package com.javarush.reviewplatform.review;
 
 import com.javarush.reviewplatform.product.model.Product;
-import com.javarush.reviewplatform.product.service.ProductService;
 import com.javarush.reviewplatform.product.model.ProductTo;
+import com.javarush.reviewplatform.product.model.RatingStatistics;
+import com.javarush.reviewplatform.product.service.ProductService;
 import com.javarush.reviewplatform.review.mapper.ReviewMapper;
 import com.javarush.reviewplatform.review.model.Review;
 import com.javarush.reviewplatform.review.model.ReviewTo;
@@ -13,8 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,6 +31,9 @@ class ReviewServiceTest {
     @Mock
     private ProductService productService;
 
+    @Mock
+    private RatingStatistics ratingStatistics;
+
     @InjectMocks
     private ReviewService reviewService;
 
@@ -39,9 +41,11 @@ class ReviewServiceTest {
     void should_CalculateAverageRatingAndCount_WhenSavingReview() {
         // GIVEN
         Long productId = 1L;
+
         Product product = Product.builder()
                 .id(productId)
                 .build();
+
         ReviewTo inputDto = new ReviewTo();
         inputDto.setProductId(productId);
         inputDto.setRating(5);
@@ -50,59 +54,95 @@ class ReviewServiceTest {
         reviewEntity.setProduct(product);
         reviewEntity.setRating(5);
 
-        // Настраиваем поведение базового сохранения (super.save)
-        when(mapper.mapToEntity(inputDto)).thenReturn(reviewEntity);
-        when(repository.save(reviewEntity)).thenReturn(reviewEntity);
-        when(mapper.mapToDto(reviewEntity)).thenReturn(inputDto);
+        // super.save()
+        when(mapper.mapToEntity(inputDto))
+                .thenReturn(reviewEntity);
 
-        // Данные для пересчета рейтинга
+        when(repository.save(reviewEntity))
+                .thenReturn(reviewEntity);
+
+        when(mapper.mapToDto(reviewEntity))
+                .thenReturn(inputDto);
+
         ProductTo productTo = new ProductTo();
         productTo.setId(productId);
 
-        // Имитируем, что в базе уже есть два отзыва с рейтингами 4 и 8
-        Review r1 = new Review(); r1.setRating(4);
-        Review r2 = new Review(); r2.setRating(8);
-        List<Review> existingReviews = List.of(r1, r2);
+        when(productService.getById(productId))
+                .thenReturn(productTo);
 
-        when(productService.getById(productId)).thenReturn(productTo);
-        when(repository.findByProductId(productId)).thenReturn(existingReviews);
-        when(productService.save(any(ProductTo.class))).thenReturn(productTo);
+        // Результат SQL AVG + COUNT
+        when(repository.getRatingStatistics(productId))
+                .thenReturn(ratingStatistics);
+
+        when(ratingStatistics.getAvg())
+                .thenReturn(6.04);
+
+        when(ratingStatistics.getCount())
+                .thenReturn(2L);
+
+        when(productService.save(productTo))
+                .thenReturn(productTo);
 
         // WHEN
         ReviewTo result = reviewService.save(inputDto);
 
         // THEN
-        // Среднее арифметическое (4 + 8) / 2 = 6.0
+        assertEquals(inputDto, result);
+
+        // ReviewService округляет рейтинг до одного знака
         assertEquals(6.0, productTo.getRating());
         assertEquals(2, productTo.getReviewCount());
 
-        // Проверяем, что продукт был сохранен с обновленными данными
+        verify(repository).getRatingStatistics(productId);
         verify(productService).save(productTo);
-        verify(repository).findByProductId(productId);
     }
 
     @Test
     void should_HandleEmptyReviews_WhenCalculatingRating() {
         // GIVEN
         Long productId = 2L;
-        ReviewTo reviewTo = new ReviewTo();
-        reviewTo.setProductId(productId);
+
+        ReviewTo inputDto = new ReviewTo();
+        inputDto.setProductId(productId);
 
         Review reviewEntity = new Review();
-        when(mapper.mapToEntity(any())).thenReturn(reviewEntity);
-        when(repository.save(any())).thenReturn(reviewEntity);
-        when(mapper.mapToDto(any())).thenReturn(reviewTo);
+
+        when(mapper.mapToEntity(inputDto))
+                .thenReturn(reviewEntity);
+
+        when(repository.save(reviewEntity))
+                .thenReturn(reviewEntity);
+
+        when(mapper.mapToDto(reviewEntity))
+                .thenReturn(inputDto);
 
         ProductTo productTo = new ProductTo();
-        when(productService.getById(productId)).thenReturn(productTo);
-        when(repository.findByProductId(productId)).thenReturn(List.of()); // Нет отзывов
-        when(productService.save(any())).thenReturn(productTo);
+        productTo.setId(productId);
+
+        when(productService.getById(productId))
+                .thenReturn(productTo);
+
+        when(repository.getRatingStatistics(productId))
+                .thenReturn(ratingStatistics);
+
+        when(ratingStatistics.getAvg())
+                .thenReturn(0.0);
+
+        when(ratingStatistics.getCount())
+                .thenReturn(0L);
+
+        when(productService.save(productTo))
+                .thenReturn(productTo);
 
         // WHEN
-        reviewService.save(reviewTo);
+        ReviewTo result = reviewService.save(inputDto);
 
         // THEN
+        assertEquals(inputDto, result);
         assertEquals(0.0, productTo.getRating());
         assertEquals(0, productTo.getReviewCount());
+
+        verify(repository).getRatingStatistics(productId);
+        verify(productService).save(productTo);
     }
 }
